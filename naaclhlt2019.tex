@@ -419,6 +419,7 @@ We show t-SNE plots for ablation tests with different combinations of auxiliary 
 	\centering
 	\includegraphics[width=\linewidth]{latent-spaces}
 	\caption{t-SNE plots of the disentangled style and content spaces (with all auxiliary losses on the Yelp dataset).}
+	\vspace{-.5cm}
 	\label{fig:tsne-plots}
 \end{figure}
 
@@ -500,13 +501,15 @@ We use the geometric mean to compute an aggregate score over multiple evaluation
 			Ours (VAE)                    & \textbf{4.32}                & 3.73                         & \textbf{4.48}                & \textbf{4.16}       \\ \hline
 		\end{tabular}}
 	\caption{Manual evaluation on the Yelp dataset.}
+	\vspace{-.5cm}
 	\label{tab:manual-evaluation}
 \end{table}
 
 \subsubsection{Results and Analysis.}
 
 We compare our approach with previous state-of-the-art work in Table \ref{tab:comparison-previous}.
-For baseline methods, we quoted results from existing papers whenever possible, and replicated the experiments to report other metrics with publicly available code \cite{shen2017style,fu2018style,zhao2018adversarially}.\footnote{\citet{fu2018style} propose another model using multiple decoders; the method is further developed in \citet{zhao2018adversarially}, and we adopt the latter for comparison.} As discussed in Table~\ref{tab:comparison-previous}, our replication involves reasonable efforts and is fair for comparison.
+For baseline methods, we quoted results from existing papers whenever possible, and replicated the experiments to report other metrics with publicly available code \cite{shen2017style,fu2018style,zhao2018adversarially}.\footnote{\citet{fu2018style} propose another model using multiple decoders; the method is further developed in \citet{zhao2018adversarially}, and we adopt the latter for comparison.} 
+% As discussed in Table~\ref{tab:comparison-previous}, our replication involves reasonable efforts and is fair for comparison.
 
 % \begin{table*}[ht]
 % 	\centering\vspace{-.2cm}
@@ -566,7 +569,7 @@ We observe that the style embedding model \cite{fu2018style} performs poorly on 
 The other two competing methods~\cite{shen2017style,zhao2018adversarially} achieve reasonable transfer accuracy and cosine similarity. However, our model outperforms them by 10\% transfer accuracy as well as content preserving scores (measured by cosine similarity and the word overlap rate). This shows our model is able to generate high-quality style transferred sentences, which in turn indicates that the  latent space  is well disentangled into style and content subspaces. Regarding language fluency, we see that VAE is better than DAE in both experiments. This is expected as VAE regularizes the latent space by imposing a probabilistic distribution. We also see that our method achieves considerably more fluent sentences than competing methods, showing that our multi-task and adversarial losses are more ``natural'' than other methods, for example, aligning RNN hidden states \cite{shen2017style}.
 
 
-Table~\ref{tab:manual-evaluation} presents the results of human evaluation. Again, we see that the style embedding model \cite{fu2018style} is ineffective as it has a very low transfer strength, and that our method outperforms other baselines in all aspects. The results are consistent with the automatic metrics in both experiments (Table~\ref{tab:comparison-previous}). This implies that the automatic metrics we used are reasonable; it also shows consistent evidence of the effectiveness of our approach.
+Table~\ref{tab:manual-evaluation} presents the results of human evaluation. Again, we see that the style embedding model \cite{fu2018style} is ineffective as it has a very low transfer strength, and that our method outperforms other baselines in all aspects. The results are consistent with the automatic metrics in Table~\ref{tab:comparison-previous}. This implies that the automatic metrics we used are reasonable; it also shows consistent evidence of the effectiveness of our approach.
 
 % We conducted ablation tests on the Yelp dataset, and show results in Table~\ref{tab:ablation-results}. With $\loss{VAE}$ only, we cannot achieve reasonable style transfer accuracy by substituting an empirically estimated style vector of the target style.  This is because the style and content spaces would not be disentangled spontaneously with the autoencoding loss alone.
 % With either $\loss{mul(s)}$ or $\loss{adv(s)}$, the model achieves reasonable transfer accuracy and cosine similarity. Combining them together improves the transfer accuracy to 90\%, outperforming previous methods by a margin of 10\% (Table~\ref{tab:comparison-previous}). This shows that the multi-task loss and the adversarial loss work in different ways. Our insight of combining the two auxiliary losses is a simple yet effective way of disentangling latent space.
