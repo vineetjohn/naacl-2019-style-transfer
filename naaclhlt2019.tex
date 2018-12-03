@@ -124,7 +124,6 @@ For style-transfer inference, we simply use the autoencoder to encode the conten
 We then infer from the training data, an empirical embedding of the style that we would like to transfer.
 The encoded content vector and the empirically-inferred style vector are concatenated and fed to the decoder.
 This grafting technique enables us to obtain a new sentence similar in content to the input sentence, but with a different style.
-8364
 We conducted experiments on two customer review datasets.
 Qualitative and quantitative results show that both the style and content spaces are indeed disentangled well.
 In the style-transfer evaluation, we achieve substantially better style-transfer strength, content preservation, and language fluency scores, compared with previous results.
