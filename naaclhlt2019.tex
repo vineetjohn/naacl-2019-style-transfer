@@ -435,9 +435,9 @@ We show t-SNE plots for ablation tests with different combinations of auxiliary 
 			Style-Embedding \cite{fu2018style}                  & 0.18                                        & \textbf{0.96}                                & \textbf{0.67}                & 0.35              & 124                           & \ 0.40$^\dag$                 & \ 0.93$^\dag$                & 0.36                         & 0.39              & \textbf{32}                   \\ \hline
 			Cross-Alignment \cite{shen2017style}                & \ 0.78$^\dag$                               & 0.89                                         & 0.21                         & 0.41              & 93                            & 0.61                          & 0.89                         & 0.02                         & 0.12              & 202                           \\ \hline
 			Multi-Decoder \cite{zhao2018adversarially}          & \ 0.82$^\dag$                               & 0.88                                         & 0.27                         & 0.48              & 85                            & 0.55                          & 0.93                         & 0.17                         & 0.31              & 75                            \\ \hline
-			DeleteRetrieveGenerate \cite{li2018delete} $^\ddag$ & 0.86                                        & 0.94                                         & 0.52                         & 0.67              & 70                            & 0.43                          & \textbf{0.98}                & \textbf{0.80}                & \textbf{0.58}     & 65                            \\ \hline
+			Del-Ret-Gen \cite{li2018delete} $^\ddag$ & 0.86                                        & 0.94                                         & 0.52                         & 0.67              & 70                            & 0.43                          & \textbf{0.98}                & \textbf{0.80}                & \textbf{0.58}     & 65                            \\ \hline
 			BackTranslate \cite{prabhumoye2018style}            & 0.85                                        & 0.83                                         & 0.08                         & 0.25              & 206                           & \textbf{0.83}                 & 0.82                         & 0.02                         & 0.13              & 115                           \\ \hline
-			Cycle RL \cite{xu2018unpaired} $^\ddag$             & 0.80                                        & 0.92                                         & 0.43                         & 0.59              & 470                           & 0.72                          & 0.91                         & 0.22                         & 0.40              & 332                           \\ \hline\hline
+			Cycle-RL \cite{xu2018unpaired} $^\ddag$             & 0.80                                        & 0.92                                         & 0.43                         & 0.59              & 470                           & 0.72                          & 0.91                         & 0.22                         & 0.40              & 332                           \\ \hline\hline
 			Ours (DAE)                                          & 0.88                                        & 0.92                                         & 0.55                         & \textbf{0.70}     & 137                           & 0.72                          & 0.92                         & 0.35                         & 0.50              & 73                            \\ \hline
 			Ours (VAE)                                          & \textbf{0.93}                               & 0.90                                         & 0.47                         & 0.66              & \textbf{69}                   & 0.82                          & 0.90                         & 0.20                         & 0.40              & 63                            \\ \hline
 		\end{tabular}}\vspace{-.2cm}
@@ -536,30 +536,30 @@ For baseline methods, we quoted results from existing papers whenever possible, 
 	\label{tab:ablation-results}
 \end{table*}
 
-\begin{table*}[!t]
-	\centering
-	\resizebox{.95\textwidth}{!}{\footnotesize
-		\begin{tabular}{| p{0.3\linewidth} || p{0.3\linewidth} | p{0.3\linewidth} |}
-			\hline
-			\tabc{1}{Original (Positive)}                                           & \tabh{DAE Transferred (Negative)}                                         & \tabh{VAE Transferred (Negative)}                          \\
-			\hline \hline
-			the food is excellent and the service is exceptional                    & the food was a bit bad but the staff was exceptional                      & the food was bland and i am not thrilled with this         \\ \hline
-			the waitresses are friendly and helpful                                 & the guys are rude and helpful                                             & the waitresses are rude and are lazy                       \\ \hline
-			the restaurant itself is romantic and quiet                             & the restaurant itself is awkward and quite crowded                        & the restaurant itself was dirty                            \\ \hline
-			great deal                                                              & horrible deal                                                             & no deal                                                    \\ \hline
-			both times i have eaten the lunch buffet and it was outstanding         & their burgers were decent but the eggs were not the consistency           & both times i have eaten here the food was mediocre at best \\ \hline
-			\hline
-			\tabc{1}{Original (Negative)}                                           & \tabh{DAE Transferred (Positive)}                                         & \tabh{VAE Transferred (Positive)}                          \\
-			\hline \hline
-			the desserts were very bland                                            & the desserts were very good                                               & the desserts were very good                                \\ \hline
-			it was a bed of lettuce and spinach with some italian meats and cheeses & it was a beautiful setting and just had a large variety of german flavors & it was a huge assortment of flavors and italian food       \\ \hline
-			the people behind the counter were not friendly whatsoever              & the best selection behind the register and service presentation           & the people behind the counter is friendly caring           \\ \hline
-			the interior is old and generally falling apart                         & the decor is old and now perfectly                                        & the interior is old and noble                              \\ \hline
-			they are clueless                                                       & they are stoked                                                           & they are genuinely professionals                           \\ \hline
-		\end{tabular}}\vspace{-.2cm}
-	\caption{Examples of style transferred sentence generation.}\vspace{-.2cm}
-	\label{tab:transfer-samples}
-\end{table*}
+% \begin{table*}[!t]
+% 	\centering
+% 	\resizebox{.95\textwidth}{!}{\footnotesize
+% 		\begin{tabular}{| p{0.3\linewidth} || p{0.3\linewidth} | p{0.3\linewidth} |}
+% 			\hline
+% 			\tabc{1}{Original (Positive)}                                           & \tabh{DAE Transferred (Negative)}                                         & \tabh{VAE Transferred (Negative)}                          \\
+% 			\hline \hline
+% 			the food is excellent and the service is exceptional                    & the food was a bit bad but the staff was exceptional                      & the food was bland and i am not thrilled with this         \\ \hline
+% 			the waitresses are friendly and helpful                                 & the guys are rude and helpful                                             & the waitresses are rude and are lazy                       \\ \hline
+% 			the restaurant itself is romantic and quiet                             & the restaurant itself is awkward and quite crowded                        & the restaurant itself was dirty                            \\ \hline
+% 			great deal                                                              & horrible deal                                                             & no deal                                                    \\ \hline
+% 			both times i have eaten the lunch buffet and it was outstanding         & their burgers were decent but the eggs were not the consistency           & both times i have eaten here the food was mediocre at best \\ \hline
+% 			\hline
+% 			\tabc{1}{Original (Negative)}                                           & \tabh{DAE Transferred (Positive)}                                         & \tabh{VAE Transferred (Positive)}                          \\
+% 			\hline \hline
+% 			the desserts were very bland                                            & the desserts were very good                                               & the desserts were very good                                \\ \hline
+% 			it was a bed of lettuce and spinach with some italian meats and cheeses & it was a beautiful setting and just had a large variety of german flavors & it was a huge assortment of flavors and italian food       \\ \hline
+% 			the people behind the counter were not friendly whatsoever              & the best selection behind the register and service presentation           & the people behind the counter is friendly caring           \\ \hline
+% 			the interior is old and generally falling apart                         & the decor is old and now perfectly                                        & the interior is old and noble                              \\ \hline
+% 			they are clueless                                                       & they are stoked                                                           & they are genuinely professionals                           \\ \hline
+% 		\end{tabular}}\vspace{-.2cm}
+% 	\caption{Examples of style transferred sentence generation.}\vspace{-.2cm}
+% 	\label{tab:transfer-samples}
+% \end{table*}
 
 We observe that the style embedding model \cite{fu2018style} performs poorly on the style-transfer objective,\footnote{It should be noted that the transfer accuracy is lower bounded by 0\% as opposed to 50\%, because we always transfer a sentence to the opposite sentiment. The lower-bound, zero transfer accuracy, is achieved by a trivial model that copies the input.} resulting in inflated cosine similarity and word overlap scores. We also examined the number of times each model generates exact copies of the source sentences during style transfer. We notice that the style-embedding model simply reconstructs the exact source sentence $24\%$ of the time, whereas all other models do this less than $6\%$ of the time. Therefore, we do not think that the style embedding approach is an effective model for text style transfer.
 
