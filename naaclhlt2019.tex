@@ -483,7 +483,8 @@ The inter-rater agreement---as measured by Krippendorff's alpha \cite{krippendor
 According to \citet{krippendorf2004content}, this is an acceptable inter-rater agreement.
 
 $\bullet$ \textit{Geometric Mean (GM):}
-We use the geometric mean to compute an aggregate score over multiple evaluation metrics as shown in Tables \ref{tab:comparison-previous}, \ref{tab:manual-evaluation} and \ref{tab:ablation-results}.
+We use the geometric mean to compute an aggregate score over multiple evaluation metrics as shown in Tables \ref{tab:comparison-previous} and \ref{tab:manual-evaluation}.
+%  and \ref{tab:ablation-results}.
 
 \begin{table}[!t]
 	\centering\vspace{-.2cm}
@@ -508,33 +509,33 @@ We use the geometric mean to compute an aggregate score over multiple evaluation
 We compare our approach with previous state-of-the-art work in Table \ref{tab:comparison-previous}.
 For baseline methods, we quoted results from existing papers whenever possible, and replicated the experiments to report other metrics with publicly available code \cite{shen2017style,fu2018style,zhao2018adversarially}.\footnote{\citet{fu2018style} propose another model using multiple decoders; the method is further developed in \citet{zhao2018adversarially}, and we adopt the latter for comparison.} As discussed in Table~\ref{tab:comparison-previous}, our replication involves reasonable efforts and is fair for comparison.
 
-\begin{table*}[ht]
-	\centering\vspace{-.2cm}
-	\begin{tabular}{| l || c | c | c | c | c |}
-		\hline
-		\tabc{2}{Objectives}                                                            & \multirow{2}{*}{\textbf{STA}} & \multirow{2}{*}{\textbf{CS}} & \multirow{2}{*}{\textbf{WO}} & \textbf{GM}       & \multirow{2}{*}{\textbf{PPL}} \\
-		                                                                                &                               &                              &                              & \textbf{(STA,WO)} &                               \\
-		\hline\hline
-		$\loss{AE}$                                                                     & 0.11                          & \textbf{0.94}                & 0.47                         & 0.22              & 40                            \\ \hline
-		$\loss{AE}$, $\loss{mul(s)}$                                                    & 0.77                          & 0.91                         & 0.33                         & 0.50              & 41                            \\ \hline
-		% $\loss{AE}$, $\loss{mul(c)}$                                                    & 0.16            & 0.93              & 0.63           & -           & -          \\ \hline
-		$\loss{AE}$, $\loss{adv(s)}$                                                    & 0.78                          & 0.89                         & 0.23                         & 0.42              & 35                            \\ \hline
-		% $\loss{AE}$, $\loss{adv(c)}$                                                    & 0.10            & 0.94              & 0.47           & -           & -          \\ \hline
-		% $\loss{AE}$, $\loss{mul(s)}$, $\loss{mul(c)}$                                   & 0.82            & 0.93              & 0.56           & -           & -          \\ \hline
-		$\loss{AE}$, $\loss{mul(s)}$, $\loss{adv(s)}$                                   & 0.91                          & 0.87                         & 0.17                         & 0.40              & \textbf{23}                   \\ \hline
-		% $\loss{AE}$, $\loss{mul(s)}$, $\loss{adv(c)}$                                   & 0.78            & 0.91              & 0.32           & -           & -          \\ \hline
-		% $\loss{AE}$, $\loss{mul(c)}$, $\loss{adv(s)}$                                   & 0.82            & 0.89              & 0.51           & -           & -          \\ \hline
-		% $\loss{AE}$, $\loss{mul(c)}$, $\loss{adv(c)}$                                   & 0.15            & 0.93              & 0.62           & -           & -          \\ \hline
-		% $\loss{AE}$, $\loss{adv(s)}$, $\loss{adv(c)}$                                   & 0.78            & 0.88              & 0.21           & -           & -          \\ \hline
-		% $\loss{AE}$, $\loss{mul(s)}$, $\loss{mul(c)}$, $\loss{adv(s)}$                  & 0.92            & 0.90              & 0.48           & -           & -          \\ \hline
-		% $\loss{AE}$, $\loss{mul(s)}$, $\loss{mul(c)}$, $\loss{adv(c)}$                  & 0.84            & 0.92              & 0.56           & -           & -          \\ \hline
-		% $\loss{AE}$, $\loss{mul(s)}$, $\loss{adv(s)}$, $\loss{adv(c)}$                  & 0.93            & 0.86              & 0.16           & -           & -          \\ \hline
-		% $\loss{AE}$, $\loss{mul(c)}$, $\loss{adv(s)}$, $\loss{adv(c)}$                  & 0.81            & 0.90              & 0.50           & -           & -          \\ \hline
-		$\loss{AE}$, $\loss{mul(s)}$, $\loss{adv(s)}$, $\loss{mul(c)}$, $\loss{adv(c)}$ & \textbf{0.93}                 & 0.90                         & \textbf{0.47}                & \textbf{0.66}     & 32                            \\ \hline
-	\end{tabular}\vspace{-.2cm}
-	\caption{Ablation tests on the Yelp dataset. In all variants, we follow the same protocol of style transfer by substituting an empirical estimate of the target style vector.}
-	\label{tab:ablation-results}
-\end{table*}
+% \begin{table*}[ht]
+% 	\centering\vspace{-.2cm}
+% 	\begin{tabular}{| l || c | c | c | c | c |}
+% 		\hline
+% 		\tabc{2}{Objectives}                                                            & \multirow{2}{*}{\textbf{STA}} & \multirow{2}{*}{\textbf{CS}} & \multirow{2}{*}{\textbf{WO}} & \textbf{GM}       & \multirow{2}{*}{\textbf{PPL}} \\
+% 		                                                                                &                               &                              &                              & \textbf{(STA,WO)} &                               \\
+% 		\hline\hline
+% 		$\loss{AE}$                                                                     & 0.11                          & \textbf{0.94}                & 0.47                         & 0.22              & 40                            \\ \hline
+% 		$\loss{AE}$, $\loss{mul(s)}$                                                    & 0.77                          & 0.91                         & 0.33                         & 0.50              & 41                            \\ \hline
+% 		% $\loss{AE}$, $\loss{mul(c)}$                                                    & 0.16            & 0.93              & 0.63           & -           & -          \\ \hline
+% 		$\loss{AE}$, $\loss{adv(s)}$                                                    & 0.78                          & 0.89                         & 0.23                         & 0.42              & 35                            \\ \hline
+% 		% $\loss{AE}$, $\loss{adv(c)}$                                                    & 0.10            & 0.94              & 0.47           & -           & -          \\ \hline
+% 		% $\loss{AE}$, $\loss{mul(s)}$, $\loss{mul(c)}$                                   & 0.82            & 0.93              & 0.56           & -           & -          \\ \hline
+% 		$\loss{AE}$, $\loss{mul(s)}$, $\loss{adv(s)}$                                   & 0.91                          & 0.87                         & 0.17                         & 0.40              & \textbf{23}                   \\ \hline
+% 		% $\loss{AE}$, $\loss{mul(s)}$, $\loss{adv(c)}$                                   & 0.78            & 0.91              & 0.32           & -           & -          \\ \hline
+% 		% $\loss{AE}$, $\loss{mul(c)}$, $\loss{adv(s)}$                                   & 0.82            & 0.89              & 0.51           & -           & -          \\ \hline
+% 		% $\loss{AE}$, $\loss{mul(c)}$, $\loss{adv(c)}$                                   & 0.15            & 0.93              & 0.62           & -           & -          \\ \hline
+% 		% $\loss{AE}$, $\loss{adv(s)}$, $\loss{adv(c)}$                                   & 0.78            & 0.88              & 0.21           & -           & -          \\ \hline
+% 		% $\loss{AE}$, $\loss{mul(s)}$, $\loss{mul(c)}$, $\loss{adv(s)}$                  & 0.92            & 0.90              & 0.48           & -           & -          \\ \hline
+% 		% $\loss{AE}$, $\loss{mul(s)}$, $\loss{mul(c)}$, $\loss{adv(c)}$                  & 0.84            & 0.92              & 0.56           & -           & -          \\ \hline
+% 		% $\loss{AE}$, $\loss{mul(s)}$, $\loss{adv(s)}$, $\loss{adv(c)}$                  & 0.93            & 0.86              & 0.16           & -           & -          \\ \hline
+% 		% $\loss{AE}$, $\loss{mul(c)}$, $\loss{adv(s)}$, $\loss{adv(c)}$                  & 0.81            & 0.90              & 0.50           & -           & -          \\ \hline
+% 		$\loss{AE}$, $\loss{mul(s)}$, $\loss{adv(s)}$, $\loss{mul(c)}$, $\loss{adv(c)}$ & \textbf{0.93}                 & 0.90                         & \textbf{0.47}                & \textbf{0.66}     & 32                            \\ \hline
+% 	\end{tabular}\vspace{-.2cm}
+% 	\caption{Ablation tests on the Yelp dataset. In all variants, we follow the same protocol of style transfer by substituting an empirical estimate of the target style vector.}
+% 	\label{tab:ablation-results}
+% \end{table*}
 
 % \begin{table*}[!t]
 % 	\centering
@@ -568,15 +569,12 @@ The other two competing methods~\cite{shen2017style,zhao2018adversarially} achie
 
 Table~\ref{tab:manual-evaluation} presents the results of human evaluation. Again, we see that the style embedding model \cite{fu2018style} is ineffective as it has a very low transfer strength, and that our method outperforms other baselines in all aspects. The results are consistent with the automatic metrics in both experiments (Table~\ref{tab:comparison-previous}). This implies that the automatic metrics we used are reasonable; it also shows consistent evidence of the effectiveness of our approach.
 
-We conducted ablation tests on the Yelp dataset, and show results in Table~\ref{tab:ablation-results}. With $\loss{VAE}$ only, we cannot achieve reasonable style transfer accuracy by substituting an empirically estimated style vector of the target style.  This is because the style and content spaces would not be disentangled spontaneously with the autoencoding loss alone.
+% We conducted ablation tests on the Yelp dataset, and show results in Table~\ref{tab:ablation-results}. With $\loss{VAE}$ only, we cannot achieve reasonable style transfer accuracy by substituting an empirically estimated style vector of the target style.  This is because the style and content spaces would not be disentangled spontaneously with the autoencoding loss alone.
+% With either $\loss{mul(s)}$ or $\loss{adv(s)}$, the model achieves reasonable transfer accuracy and cosine similarity. Combining them together improves the transfer accuracy to 90\%, outperforming previous methods by a margin of 10\% (Table~\ref{tab:comparison-previous}). This shows that the multi-task loss and the adversarial loss work in different ways. Our insight of combining the two auxiliary losses is a simple yet effective way of disentangling latent space.
+% However, $\loss{mul(s)}$ and $\loss{adv(s)}$ only regularize the style information, leading to gradual drop of content preserving scores. Then, we have another insight of introducing content-oriented auxiliary losses, $\loss{mul(c)}$ and $\loss{adv(c)}$, based on BoW features, which regularize the content information in the same way as the style information. By incorporating all these auxiliary losses, we achieve high transfer accuracy, high content preservation, as well as high language fluency.
 
-With either $\loss{mul(s)}$ or $\loss{adv(s)}$, the model achieves reasonable transfer accuracy and cosine similarity. Combining them together improves the transfer accuracy to 90\%, outperforming previous methods by a margin of 10\% (Table~\ref{tab:comparison-previous}). This shows that the multi-task loss and the adversarial loss work in different ways. Our insight of combining the two auxiliary losses is a simple yet effective way of disentangling latent space.
-
-However, $\loss{mul(s)}$ and $\loss{adv(s)}$ only regularize the style information, leading to gradual drop of content preserving scores. Then, we have another insight of introducing content-oriented auxiliary losses, $\loss{mul(c)}$ and $\loss{adv(c)}$, based on BoW features, which regularize the content information in the same way as the style information. By incorporating all these auxiliary losses, we achieve high transfer accuracy, high content preservation, as well as high language fluency.
-
-
-Table~\ref{tab:transfer-samples} provides several examples of our style-transfer model. Results show that we can successfully transfer the sentiment while preserving the content of a sentence.
-We see that, with the empirically estimated style vector, we can reliably control the sentiment of generated sentences.
+% Table~\ref{tab:transfer-samples} provides several examples of our style-transfer model. Results show that we can successfully transfer the sentiment while preserving the content of a sentence.
+% We see that, with the empirically estimated style vector, we can reliably control the sentiment of generated sentences.
 
 \section{Conclusion}
 In this paper, we propose a simple yet effective approach for disentangling the latent space of neural networks.
