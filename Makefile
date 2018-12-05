@@ -1,8 +1,12 @@
 filename=naaclhlt2019
+suppfilename=supplementary
 build-dir=build
 
 all:
 	latexmk -xelatex -pdf -outdir=$(build-dir) $(filename)
+
+supp:
+	latexmk -xelatex -pdf -outdir=$(build-dir) $(suppfilename)
 
 bib:
 	bibtex $(build-dir)/$(filename)
