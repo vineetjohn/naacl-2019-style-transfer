@@ -430,20 +430,19 @@ We show t-SNE plots for ablation tests with different combinations of auxiliary 
 	\resizebox{\textwidth}{!}{
 		\begin{tabular}{|l||c|c|c|c||c|c|c|c| }
 			\hline
-			\tabc{3}{Model}                                & \multicolumn{4}{c||}{\textbf{Yelp Dataset}} & \multicolumn{4}{c|}{\textbf{Amazon Dataset}}                                                                                                                                                                                              \\ \cline{2-9}
-			                                               & \multirow{2}{*}{\textbf{STA}}               & \multirow{2}{*}{\textbf{CS}}                 & \multirow{2}{*}{\textbf{WO}} & \multirow{2}{*}{\textbf{PPL}} & \multirow{2}{*}{\textbf{STA}} & \multirow{2}{*}{\textbf{CS}} & \multirow{2}{*}{\textbf{WO}} & \multirow{2}{*}{\textbf{PPL}} \\
-			                                               &                                             &                                              &                              &                               &                               &                              &                              &                               \\
+			\tabc{2}{Model}                            & \multicolumn{4}{c||}{\textbf{Yelp Dataset}} & \multicolumn{4}{c|}{\textbf{Amazon Dataset}}                                                                                               \\ \cline{2-9}
+			                                           & \textbf{STA}                                & \textbf{CS}                                  & \textbf{WO}   & \textbf{PPL} & \textbf{STA}  & \textbf{CS}   & \textbf{WO}   & \textbf{PPL} \\
 			\hline\hline
-			Style-Embedding \cite{fu2018style} & 0.18                                        & \textbf{0.96}                                & \textbf{0.67}                & 124                           & \ 0.40$^\dag$                 & \ 0.93$^\dag$                & 0.36                         & \textbf{32}                   \\ \hline
-			Cross-Alignment \cite{shen2017style}           & \ 0.78$^\dag$                               & 0.89                                         & 0.21                         & 93                            & 0.61                          & 0.89                         & 0.02                         & 202                           \\ \hline
-			Multi-Decoder \cite{zhao2018adversarially}     & \ 0.82$^\dag$                               & 0.88                                         & 0.27                         & 85                            & 0.55                          & 0.93                         & 0.17                         & 75                            \\ \hline
-			Del-Ret-Gen \cite{li2018delete} $^\ddag$       & 0.86                                        & 0.94                                         & 0.52                         & 70                            & 0.43                          & \textbf{0.98}                & \textbf{0.80}                & 65                            \\ \hline
-			BackTranslate \cite{prabhumoye2018style}       & 0.85                                        & 0.83                                         & 0.08                         & 206                           & \textbf{0.83}                 & 0.82                         & 0.02                         & 115                           \\ \hline
-			Cycle-RL \cite{xu2018unpaired} $^\ddag$        & 0.80                                        & 0.92                                         & 0.43                         & 470                           & 0.72                          & 0.91                         & 0.22                         & 332                           \\ \hline\hline
-			Ours (DAE)                                     & 0.88                                        & 0.92                                         & 0.55                         & 137                           & 0.72                          & 0.92                         & 0.35                         & 73                            \\ \hline
-			Ours (VAE)                                     & \textbf{0.93}                               & 0.90                                         & 0.47                         & \textbf{69}                   & 0.82                          & 0.90                         & 0.20                         & 63                            \\ \hline
+			Style-Embedding \cite{fu2018style}         & 0.18                                        & \textbf{0.96}                                & \textbf{0.67} & 124          & \ 0.40$^\dag$ & \ 0.93$^\dag$ & 0.36          & \textbf{32}  \\ \hline
+			Cross-Alignment \cite{shen2017style}       & \ 0.78$^\dag$                               & 0.89                                         & 0.21          & 93           & 0.61          & 0.89          & 0.02          & 202          \\ \hline
+			Multi-Decoder \cite{zhao2018adversarially} & \ 0.82$^\dag$                               & 0.88                                         & 0.27          & 85           & 0.55          & 0.93          & 0.17          & 75           \\ \hline
+			Del-Ret-Gen \cite{li2018delete} $^\ddag$   & 0.86                                        & 0.94                                         & 0.52          & 70           & 0.43          & \textbf{0.98} & \textbf{0.80} & 65           \\ \hline
+			BackTranslate \cite{prabhumoye2018style}   & 0.85                                        & 0.83                                         & 0.08          & 206          & \textbf{0.83} & 0.82          & 0.02          & 115          \\ \hline
+			Cycle-RL \cite{xu2018unpaired} $^\ddag$    & 0.80                                        & 0.92                                         & 0.43          & 470          & 0.72          & 0.91          & 0.22          & 332          \\ \hline\hline
+			Ours (DAE)                                 & 0.88                                        & 0.92                                         & 0.55          & 137          & 0.72          & 0.92          & 0.35          & 73           \\ \hline
+			Ours (VAE)                                 & \textbf{0.93}                               & 0.90                                         & 0.47          & \textbf{69}  & 0.82          & 0.90          & 0.20          & 63           \\ \hline
 		\end{tabular}}
-		\vspace{-.2cm}
+	\vspace{-.2cm}
 	\caption{Performance of non-parallel text style transfer.  $^\dag$Quoted from previous papers (the same data split). $^\ddag$Involving custom data splits, providing a rough (but unbiased) comparison. Others are based on our replication, and we use published code whenever possible. We achieve 0.809 and 0.835 transfer accuracy on the Yelp dataset, close to the results in \citet{shen2017style} and \citet{zhao2018adversarially}, respectively, showing that our replication is fair.}\vspace{-.2cm}
 	\label{tab:comparison-previous}
 \end{table*}
@@ -490,14 +489,13 @@ According to \citet{krippendorf2004content}, this is an acceptable inter-rater a
 	\resizebox{\linewidth}{!}{
 		\begin{tabular}{|l||c|c|c|}
 			\hline
-			\tabc{2}{Model}               & \multirow{2}{*}{\textbf{TS}} & \multirow{2}{*}{\textbf{CP}} & \multirow{2}{*}{\textbf{LQ}} \\
-			                              &                              &                              &                              \\
+			\tabc{1}{Model}               & \textbf{TS}   & \textbf{CP}   & \textbf{LQ}   \\
 			\hline \hline
-			\citet{fu2018style}           & 1.67                         & \textbf{3.84}                & 3.66                         \\ \hline
-			\citet{shen2017style}         & 3.63                         & 3.07                         & 3.08                         \\ \hline
-			\citet{zhao2018adversarially} & 3.55                         & 3.09                         & 3.77                         \\ \hline \hline
-			Ours (DAE)                    & 3.67                         & 3.64                         & 4.19                         \\ \hline
-			Ours (VAE)                    & \textbf{4.32}                & 3.73                         & \textbf{4.48}                \\ \hline
+			\citet{fu2018style}           & 1.67          & \textbf{3.84} & 3.66          \\ \hline
+			\citet{shen2017style}         & 3.63          & 3.07          & 3.08          \\ \hline
+			\citet{zhao2018adversarially} & 3.55          & 3.09          & 3.77          \\ \hline \hline
+			Ours (DAE)                    & 3.67          & 3.64          & 4.19          \\ \hline
+			Ours (VAE)                    & \textbf{4.32} & 3.73          & \textbf{4.48} \\ \hline
 		\end{tabular}}
 	\caption{Manual evaluation on the Yelp dataset.}
 	\vspace{-.5cm}
