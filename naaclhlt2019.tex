@@ -183,9 +183,7 @@ Suppose at a time step $t$, the decoder RNN predicts the word $x_t$ with probabi
 where $\nnweight{E}$ and $\nnweight{D}$ are the parameters of the encoder and decoder, respectively.\footnote{For brevity, we only present the loss for a single data point (i.e., a sentence) throughout the paper. The total loss sums over all data points, and is implemented using mini-batches.} Both the encoder and decoder are deterministic functions in the original autoencoder model~\cite{rumelhart1985learning}, and thus we call it a \textit{deterministic autoencoder} (DAE).
 
 
-\subsubsection{Variational Autoencoder.}
-
-In addition to DAE, we also implement a variational autoencoder (VAE) \cite{kingma2013auto}, which imposes a probabilistic distribution on the latent vector. The Kullback-Leibler (KL) divergence \cite{kullback1951information} penalty is added to the loss function to regularize the latent space. The decoder reconstructs data based on the sampled latent vector from its posterior distribution.
+\textbf{Variational Autoencoder.} In addition to DAE, we also implement a variational autoencoder (VAE) \cite{kingma2013auto}, which imposes a probabilistic distribution on the latent vector. The Kullback-Leibler (KL) divergence \cite{kullback1951information} penalty is added to the loss function to regularize the latent space. The decoder reconstructs data based on the sampled latent vector from its posterior distribution.
 
 Formally, the autoencoding loss in the VAE is
 \begin{align}\label{eqn:vae}
@@ -428,19 +426,19 @@ We show t-SNE plots for ablation tests with different combinations of auxiliary 
 \begin{table*}[!t]
 	\centering
 	\resizebox{\textwidth}{!}{
-		\begin{tabular}{|l||c|c|c|c||c|c|c|c| }
+		\begin{tabular}{|l||c|c|c|c|c||c|c|c|c|c| }
 			\hline
-			\tabc{2}{Model}                            & \multicolumn{4}{c||}{\textbf{Yelp Dataset}} & \multicolumn{4}{c|}{\textbf{Amazon Dataset}}                                                                                               \\ \cline{2-9}
-			                                           & \textbf{STA}                                & \textbf{CS}                                  & \textbf{WO}   & \textbf{PPL} & \textbf{STA}  & \textbf{CS}   & \textbf{WO}   & \textbf{PPL} \\
+			\tabc{2}{Model}                            & \multicolumn{5}{c||}{\textbf{Yelp Dataset}} & \multicolumn{5}{c|}{\textbf{Amazon Dataset}}                                                                                               \\ \cline{2-11}
+			                                           & \textbf{STA}                                & \textbf{CS}                                  & \textbf{WO}   & \textbf{PPL} & \textbf{GO} & \textbf{STA}  & \textbf{CS}   & \textbf{WO}   & \textbf{PPL} & \textbf{GO}\\
 			\hline\hline
-			Style-Embedding \cite{fu2018style}         & 0.18                                        & \textbf{0.96}                                & \textbf{0.67} & 124          & \ 0.40$^\dag$ & \ 0.93$^\dag$ & 0.36          & \textbf{32}  \\ \hline
-			Cross-Alignment \cite{shen2017style}       & \ 0.78$^\dag$                               & 0.89                                         & 0.21          & 93           & 0.61          & 0.89          & 0.02          & 202          \\ \hline
-			Multi-Decoder \cite{zhao2018adversarially} & \ 0.82$^\dag$                               & 0.88                                         & 0.27          & 85           & 0.55          & 0.93          & 0.17          & 75           \\ \hline
-			Del-Ret-Gen \cite{li2018delete} $^\ddag$   & 0.86                                        & 0.94                                         & 0.52          & 70           & 0.43          & \textbf{0.98} & \textbf{0.80} & 65           \\ \hline
-			BackTranslate \cite{prabhumoye2018style}   & 0.85                                        & 0.83                                         & 0.08          & 206          & \textbf{0.83} & 0.82          & 0.02          & 115          \\ \hline
-			Cycle-RL \cite{xu2018unpaired} $^\ddag$    & 0.80                                        & 0.92                                         & 0.43          & 470          & 0.72          & 0.91          & 0.22          & 332          \\ \hline\hline
-			Ours (DAE)                                 & 0.88                                        & 0.92                                         & 0.55          & 137          & 0.72          & 0.92          & 0.35          & 73           \\ \hline
-			Ours (VAE)                                 & \textbf{0.93}                               & 0.90                                         & 0.47          & \textbf{69}  & 0.82          & 0.90          & 0.20          & 63           \\ \hline
+			Style-Embedding \cite{fu2018style}    & \color{gray}0.18                    & \color{gray}\textbf{0.96}    &\color{gray} \textbf{0.67} &\color{gray} 124  &\color{gray}   xxx     & \color{gray} \ 0.40$^\dag$ &\color{gray} \ 0.93$^\dag$ &\color{gray} 0.36 &\color{gray} \textbf{32} & xxx  \\ \hline
+			Cross-Alignment \cite{shen2017style}       & \ 0.78$^\dag$                               & 0.89                                         & 0.21          & 93   & xxx       & 0.61          & 0.89          & 0.02          & 202  & xxx    \\ \hline
+			Multi-Decoder \cite{zhao2018adversarially} & \ 0.82$^\dag$                               & 0.88                                         & 0.27          & 85     & xxx      & 0.55         & \textbf{0.93}     & 0.17          & 75       &xxx  \\ \hline
+			Del-Ret-Gen \cite{li2018delete} $^\ddag$   & 0.86  & \textbf{0.94}  & 0.52          & 70 & xxx  & \color{gray}0.43          & \color{gray}\textbf{0.98} & \color{gray}\textbf{0.80} & \color{gray}65         & xxx  \\ \hline
+			BackTranslate \cite{prabhumoye2018style}   & 0.85                                        & 0.83                                         & 0.08          & 206    & xxx      & \textbf{0.83} & 0.82          & 0.02          & 115  & xxx  \\ \hline
+			Cycle-RL \cite{xu2018unpaired} $^\ddag$    & 0.80                                        & 0.92                                         & 0.43          & 470    & xxx      & 0.72          & 0.91          & \textbf{0.22}          & 332  & xxx        \\ \hline\hline
+			Ours (DAE)                                 & 0.88                                        & 0.92                                         & \textbf{0.55}          & 137    & xxx      & 0.72          & 0.92          & 0.35          & 73  & xxx         \\ \hline
+			Ours (VAE)                                 & \textbf{0.93}                               & 0.90                                         & 0.47          & \textbf{69} & xxx & 0.82          & 0.90          & 0.20          & \textbf{63}      & xxx     \\ \hline
 		\end{tabular}}
 	\vspace{-.2cm}
 	\caption{Performance of non-parallel text style transfer.  $^\dag$Quoted from previous papers (the same data split). $^\ddag$Involving custom data splits, providing a rough (but unbiased) comparison. Others are based on our replication, and we use published code whenever possible. We achieve 0.809 and 0.835 transfer accuracy on the Yelp dataset, close to the results in \citet{shen2017style} and \citet{zhao2018adversarially}, respectively, showing that our replication is fair.}\vspace{-.2cm}
@@ -485,8 +483,8 @@ The inter-rater agreement---as measured by Krippendorff's alpha \cite{krippendor
 According to \citet{krippendorf2004content}, this is an acceptable inter-rater agreement.
 
 \begin{table}[!t]
-	\centering\vspace{-.2cm}
-	\resizebox{\linewidth}{!}{
+	\centering
+	\resizebox{.4\textwidth}{!}{
 		\begin{tabular}{|l||c|c|c|}
 			\hline
 			\tabc{1}{Model}               & \textbf{TS}   & \textbf{CP}   & \textbf{LQ}   \\
