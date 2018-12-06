@@ -356,13 +356,13 @@ Both of these datasets comprise sentences accompanied by binary sentiment labels
 
 \subsubsection{Yelp Service Reviews.}
 We used a Yelp review dataset, following previous work \cite{shen2017style,zhao2018adversarially}.
-% \footnote{The Yelp dataset is available at \url{https://github.com/shentianxiao/language-style-transfer}}
+\footnote{The Yelp dataset is available at \url{https://github.com/shentianxiao/language-style-transfer}}
 It contains 444101, 63483 and 126670 labeled reviews for train, validation, and test, respectively.
 The maximum review length is 15 words, and the vocabulary size is approximately 9200.
 
 \subsubsection{Amazon Product Reviews.}
 We further evaluate our model with an Amazon review dataset, following another previous paper~\cite{fu2018style}.
-% \footnote{The Amazon dataset is available at \url{https://github.com/fuzhenxin/text_style_transfer}}
+\footnote{The Amazon dataset is available at \url{https://github.com/fuzhenxin/text_style_transfer}}
 It contains 559142, 2000 and 2000 labeled reviews for train, validation, and test, respectively.
 The maximum review length is 20 words, and the vocabulary size is approximately 58000.
 
@@ -428,17 +428,17 @@ We show t-SNE plots for ablation tests with different combinations of auxiliary 
 	\resizebox{\textwidth}{!}{
 		\begin{tabular}{|l||c|c|c|c|c||c|c|c|c|c| }
 			\hline
-			\tabc{2}{Model}                            & \multicolumn{5}{c||}{\textbf{Yelp Dataset}} & \multicolumn{5}{c|}{\textbf{Amazon Dataset}}                                                                                               \\ \cline{2-11}
-			                                           & \textbf{STA}                                & \textbf{CS}                                  & \textbf{WO}   & \textbf{PPL} & \textbf{GO} & \textbf{STA}  & \textbf{CS}   & \textbf{WO}   & \textbf{PPL} & \textbf{GO}\\
+			\tabc{2}{Model}                            & \multicolumn{5}{c||}{\textbf{Yelp Dataset}} & \multicolumn{5}{c|}{\textbf{Amazon Dataset}}                                                                                                                                                                                \\ \cline{2-11}
+			                                           & \textbf{STA}                                & \textbf{CS}                                  & \textbf{WO}       & \textbf{PPL}     & \textbf{GM}       & \textbf{STA}               & \textbf{CS}                & \textbf{WO}       & \textbf{PPL}    & \textbf{GM}       \\
 			\hline\hline
-			Style-Embedding \cite{fu2018style}    & \color{gray}0.18                    & \color{gray}\textbf{0.96}    &\color{gray} \textbf{0.67} &\color{gray} 124  &\color{gray}   xxx     & \color{gray} \ 0.40$^\dag$ &\color{gray} \ 0.93$^\dag$ &\color{gray} 0.36 &\color{gray} \textbf{32} & xxx  \\ \hline
-			Cross-Alignment \cite{shen2017style}       & \ 0.78$^\dag$                               & 0.89                                         & 0.21          & 93   & xxx       & 0.61          & 0.89          & 0.02          & 202  & xxx    \\ \hline
-			Multi-Decoder \cite{zhao2018adversarially} & \ 0.82$^\dag$                               & 0.88                                         & 0.27          & 85     & xxx      & 0.55         & \textbf{0.93}     & 0.17          & 75       &xxx  \\ \hline
-			Del-Ret-Gen \cite{li2018delete} $^\ddag$   & 0.86  & \textbf{0.94}  & 0.52          & 70 & xxx  & \color{gray}0.43          & \color{gray}\textbf{0.98} & \color{gray}\textbf{0.80} & \color{gray}65         & xxx  \\ \hline
-			BackTranslate \cite{prabhumoye2018style}   & 0.85                                        & 0.83                                         & 0.08          & 206    & xxx      & \textbf{0.83} & 0.82          & 0.02          & 115  & xxx  \\ \hline
-			Cycle-RL \cite{xu2018unpaired} $^\ddag$    & 0.80                                        & 0.92                                         & 0.43          & 470    & xxx      & 0.72          & 0.91          & \textbf{0.22}          & 332  & xxx        \\ \hline\hline
-			Ours (DAE)                                 & 0.88                                        & 0.92                                         & \textbf{0.55}          & 137    & xxx      & 0.72          & 0.92          & 0.35          & 73  & xxx         \\ \hline
-			Ours (VAE)                                 & \textbf{0.93}                               & 0.90                                         & 0.47          & \textbf{69} & xxx & 0.82          & 0.90          & 0.20          & \textbf{63}      & xxx     \\ \hline
+			Style-Embedding \cite{fu2018style}         & \color{gray}0.18                            & \color{gray} 0.96                            & \color{gray} 0.67 & \color{gray} 124 & \color{gray} 0.10 & \color{gray} \ 0.40$^\dag$ & \color{gray} \ 0.93$^\dag$ & \color{gray} 0.36 & \color{gray} 32 & \color{gray} 0.17 \\ \hline
+			Cross-Alignment \cite{shen2017style}       & \ 0.78$^\dag$                               & 0.89                                         & 0.21              & 93               & 0.12              & 0.61                       & 0.89                       & 0.02              & 202             & 0.04              \\ \hline
+			Multi-Decoder \cite{zhao2018adversarially} & \ 0.82$^\dag$                               & 0.88                                         & 0.27              & 85               & 0.14              & 0.55                       & \textbf{0.93}              & 0.17              & 75              & 0.11              \\ \hline
+			Del-Ret-Gen \cite{li2018delete} $^\ddag$   & 0.86                                        & \textbf{0.94}                                & 0.52              & 70               & \textbf{0.19}     & \color{gray}0.43           & \color{gray} 0.98          & \color{gray} 0.80 & \color{gray} 65 & \color{gray} 0.17 \\ \hline
+			BackTranslate \cite{prabhumoye2018style}   & 0.85                                        & 0.83                                         & 0.08              & 206              & 0.07              & \textbf{0.83}              & 0.82                       & 0.02              & 115             & 0.05              \\ \hline
+			Cycle-RL \cite{xu2018unpaired} $^\ddag$    & 0.80                                        & 0.92                                         & 0.43              & 470              & 0.09              & 0.72                       & 0.91                       & \textbf{0.22}     & 332             & 0.08              \\ \hline\hline
+			Ours (DAE)                                 & 0.88                                        & 0.92                                         & \textbf{0.55}     & 137              & 0.15              & 0.72                       & 0.92                       & 0.35              & 73              & 0.15              \\ \hline
+			Ours (VAE)                                 & \textbf{0.93}                               & 0.90                                         & 0.47              & \textbf{69}      & \textbf{0.19}     & 0.82                       & 0.90                       & 0.20              & \textbf{63}     & 0.14              \\ \hline
 		\end{tabular}}
 	\vspace{-.2cm}
 	\caption{Performance of non-parallel text style transfer.  $^\dag$Quoted from previous papers (the same data split). $^\ddag$Involving custom data splits, providing a rough (but unbiased) comparison. Others are based on our replication, and we use published code whenever possible. We achieve 0.809 and 0.835 transfer accuracy on the Yelp dataset, close to the results in \citet{shen2017style} and \citet{zhao2018adversarially}, respectively, showing that our replication is fair.}\vspace{-.2cm}
@@ -473,6 +473,10 @@ $\bullet$ \textit{Perplexity (PPL):}
 We use a trigram Kneser-Ney (KL) smoothed language model \cite{kneser1995improved} as a quantitative and automated metric to evaluate the fluency of a sentence.
 It estimates the empirical distribution of trigrams in a corpus, and computes the perplexity of a test sentence.
 We train the language model on the respective dataset, and report the Kneser-Ney language model's perplexity. A smaller number indicates more fluent sentences.
+
+$\bullet$ \textit{Geometric Mean (GM):}
+We use the geometric mean of STA, WO and 1/PPL to give us an aggregate score for each model.
+
 
 $\bullet$ \textit{Manual Evaluation:}
 Despite the above automatic metrics, we also conduct human evaluations to further confirm the performance of our model.
