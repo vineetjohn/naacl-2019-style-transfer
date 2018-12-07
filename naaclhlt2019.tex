@@ -385,7 +385,7 @@ However, the 8-d style vector $\bm s$, despite its low dimensionality, achieves 
 When combining content and style vectors, we observe no further improvement.
 These results verify the effectiveness of our disentangling approach, as the style space contains style information, whereas the content space does not.
 
-We show t-SNE plots~\cite{xxx} of both the deterministic autoencoder (DAE) and the variational autoencoder (VAE) models in Figure~\ref{fig:tsne-plots}.
+We show t-SNE plots~\cite{maaten2008visualizing} of both the deterministic autoencoder (DAE) and the variational autoencoder (VAE) models in Figure~\ref{fig:tsne-plots}.
 As seen, sentences with different styles are noticeably separated in a clean manner in the style space (LHS), but are indistinguishable in the content space (RHS).
 It is also evident that the latent space learned by the variational autoencoder is considerably smoother and continuous compared with the one learned by DAE.
 
@@ -455,7 +455,7 @@ We followed \citet{fu2018style} and computed the cosine measure between source a
 
  \textit{Word Overlap} (\textbf{WO}):
 We find that the cosine similarity measure, although more or less correlated to human judgment, is not a sensitive measure. We propose a simple yet effective measure that counts the unigram word overlap rate of the original sentence $\mathrm x$ and the style-transferred sentence $\mathrm y$, computed by $\frac{count(w_{\mathrm x} \cap w_{\mathrm y})}{count(w_{\mathrm x} \cup w_{\mathrm y})}$.
-{\color{red} Here, we exclude both stopwords and sentiment words.}
+Here, we exclude both stopwords and sentiment words.
 
 
 \textit{Perplexity} (\textbf{PPL}): We use the trigram Kneser--Ney (KN,~\citeyear{kneser1995improved}) language model as a quantitative and automated metric to evaluate the fluency of a sentence.
@@ -524,12 +524,11 @@ For baseline methods, we quote results from existing papers whenever possible. I
 
 We can see a clear trade-off between style transfer and content preservation, as they are contradictory goals. Especially, a few models have a transfer accuracy lower than 50\%. They are shown in gray, and not the focus of the comparison because the system cannot achieve the goal of style transfer most of the time.
 
-
-The results show that our method achieves high style-transfer accuracy (STA). On Yelp, for example, VAE outperforms previous methods by more than 7\%, whereas on Amazon, VAE is 1\% lower than \newcite{prabhumoye2018style}, ranling the second. 
+The results show that our method achieves high style-transfer accuracy (STA). On Yelp, for example, VAE outperforms previous methods by more than 7\%, whereas on Amazon, VAE is 1\% lower than \newcite{prabhumoye2018style}, ranking the second. 
 
 In the meantime, our approach achieves high content preservation as well. Among all the methods that can achieve more than 50\% transfer accuracy, DAE has a highest word overlap (WO) on Yelp; VAE is also high, although slightly lower than \newcite{li2018delete}. On Amazon, the phenomenon is similar. DAE is the best; VAE is 2\% worse than in word overlap rate  (although 10\% better in transfer accuracy), compared with \newcite{xu2018unpaired}.
 
-For language fluency, VAE yields the best PPL in both datasets. It is also noted that, the cycle reinforcement learning (cycleRL) approach does not generate fluent sentences~\cite{xu2018unpaired}. They have alerting high PPLs, but after reading the samples provided by the authors, we are assured that the sentences obtained by cycleRL are less fluent.
+For language fluency, VAE yields the best PPL in both datasets. It is also noted that, the cycle reinforcement learning (CycleRL) approach does not generate fluent sentences~\cite{xu2018unpaired}. They have unusually high PPL scores, but after reading the samples provided by the authors \footnote{Personal correspondence}, we are assured that the sentences obtained by cycleRL are less fluent.
 
 When we consider all the above aspects, our approach (either DAE or VAE) has the highest geometric meaning (GM), showing that we have achieved good performance in transfer strength, content preservation, as well as language fluency. 
 
