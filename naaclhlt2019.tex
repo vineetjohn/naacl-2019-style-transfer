@@ -185,7 +185,7 @@ Suppose at a time step $t$, the decoder RNN predicts the word $x_t$ with probabi
 where $\nnweight{E}$ and $\nnweight{D}$ are the parameters of the encoder and decoder, respectively.\footnote{For brevity, we only present the loss for a single data point (i.e., a sentence) throughout the paper. Total loss sums over all data points, and is implemented with mini-batches.} Both the encoder and decoder are deterministic functions in the original model~\cite{rumelhart1985learning}, and thus, we call it a \textit{deterministic autoencoder} (DAE).
 
 
-\textbf{Variational Autoencoder.} Alternatively, we may use a variational autoencoder~\cite[VAE,][]{kingma2013auto}, which imposes a probabilistic distribution on the latent vector. The decoder reconstructs data based on the sampled latent vector from its posterior, and the Kullback--Leibler~(KL, \citeyear{kullback1951information}) divergence  is penalized for regularization. 
+\textbf{Variational Autoencoder.} Alternatively, we may use a variational autoencoder~\cite[VAE,][]{kingma2013auto}, which imposes a probabilistic distribution on the latent vector. The decoder reconstructs data based on the sampled latent vector from its posterior, and the Kullback--Leibler~(KL, \citeyear{kullback1951information}) divergence  is penalized for regularization.
 
 Formally, the autoencoding loss in the VAE is
 \begin{align}
@@ -250,7 +250,7 @@ In our work, we adopt the latter, as it can be easily extended to multi-category
 \begin{equation} \label{eqn:advs}
 	\loss{adv(s)}(\nnweight{E})=\mathcal{H}(\bm y_s|\bm c; \nnweight{dis(s)})
 \end{equation}
-where $\mathcal{H}(\bm p)=-\sum_{i\in\text{labels}}p_i\log p_i$ and $\bm y_s$ is the predicted distribution over the style labels. Here, $\loss{adv(s)}$ is maximized with respect to the encoder $\nnweight{E}$ and we fix $\nnweight{dis(s)}$. The objective attains maximum value when $\bm y_s$ is uniform. 
+where $\mathcal{H}(\bm p)=-\sum_{i\in\text{labels}}p_i\log p_i$ and $\bm y_s$ is the predicted distribution over the style labels. Here, $\loss{adv(s)}$ is maximized with respect to the encoder $\nnweight{E}$ and we fix $\nnweight{dis(s)}$. The objective attains maximum value when $\bm y_s$ is uniform.
 
 While adversarial loss has been explored in previous style-transfer papers~\cite{shen2017style,fu2018style}, it has not been combined with the multi-task loss. As shown in our experiments, combining these two losses is promisingly effective, achieving better style transfer performance than a variety of previous state-of-the-art methods.
 
@@ -268,7 +268,7 @@ For a sentence $\rmx$ with $N$ words, the word $w_*$'s BoW probability is given 
 $t_c(w_*)=\frac{\sum_{i=1}^{N}{\mathbb{I}\{w_i = w_*\}}}{N}$,
 where $t_c(\cdot)$ denotes the target distribution of content, and $\mathbb{I\{\cdot\}}$ is an indicator function.
 Here, we only consider content words, excluding stopwords and style-specific words, since we focus on ``content'' information. In particular, we exclude sentiment words from a curated lexicon \cite{hu2004mining} for sentiment style transfer.
-{\color{red} The effect of using different vocabularies for BoW is analyzed in Supplemental Material A.}
+	{\color{red} The effect of using different vocabularies for BoW is analyzed in Supplemental Material A.}
 
 \textbf{Multi-Task Loss for Content.} Similar to the style-oriented loss, the multi-task loss for content, denoted as ``mul(c),'' ensures that the content space $\bm c$ contains content information, i.e., BoW features.
 We introduce a softmax classifier over the BoW vocabulary
@@ -291,8 +291,8 @@ It is also interesting that, at first glance, the multi-task loss for content ap
 We build a content adversary, a softmax classifier on the style space predicting BoW features
 \begin{align}
 	\label{eqn:adv-bow-disc-loss}
-	\bm y_c   = \operatorname{softmax}&({\weight{dis(c)}}^\top \bm s + \bias{dis(c)}) \\
-	\loss{dis(c)}(\nnweight{dis(c)}) =& - \sum\limits_{w\in\text{vocab}} t_c(w)\log y_c(w)
+	\bm y_c   = \operatorname{softmax} & ({\weight{dis(c)}}^\top \bm s + \bias{dis(c)})     \\
+	\loss{dis(c)}(\nnweight{dis(c)}) = & - \sum\limits_{w\in\text{vocab}} t_c(w)\log y_c(w)
 \end{align}
 where $\nnweight{dis(c)}=[\weight{dis(c)}; \bias{dis(c)}]$ are the classifier's parameters for BoW prediction.
 
@@ -308,9 +308,9 @@ Again, $\loss{dis(c)}$ is trained with respect to the discriminator's parameters
 
 The overall loss $\loss{ovr}$ for our model comprises several terms: the reconstruction objective, the multi-task and objective for style and content, respectively, given by
 \begin{align}
-	\loss{ovr} &=  \loss{AE}(\nnweight{E}, \nnweight{D})                                                                              \\
-	              +& \hyp{mul(s)} \loss{mul(s)} (\nnweight{E},\nnweight{mul(s)}) - \hyp{adv(s)} \loss{adv(s)}(\nnweight{E}) \nonumber \\
-	             +& \hyp{mul(c)} \loss{mul(c)} (\nnweight{E},\nnweight{mul(c)}) - \hyp{adv(c)} \loss{adv(c)}(\nnweight{E}) \nonumber
+	\loss{ovr} & =  \loss{AE}(\nnweight{E}, \nnweight{D})                                                                         \\
+	+          & \hyp{mul(s)} \loss{mul(s)} (\nnweight{E},\nnweight{mul(s)}) - \hyp{adv(s)} \loss{adv(s)}(\nnweight{E}) \nonumber \\
+	+          & \hyp{mul(c)} \loss{mul(c)} (\nnweight{E},\nnweight{mul(c)}) - \hyp{adv(c)} \loss{adv(c)}(\nnweight{E}) \nonumber
 \end{align}
 where $\lambda$'s are the hyperparameters that balance the autoencoding loss and these auxiliary losses.
 
@@ -368,7 +368,7 @@ Each optimizer has an initial learning rate of $10^{-3}$.
 Our model is trained for 20 epochs, by which time it has mostly converged.
 The word embedding layer was initialized by word2vec \cite{mikolov2013distributed} trained on respective training sets.
 Both the autoencoder and the discriminators are trained once per mini-batch with $\hyp{mul(s)}\!\!=\!\!10$, $\hyp{mul(c)}\!\!=\!\!3$, $\hyp{adv(s)}\!\!=\!\!1$, and $\hyp{adv(c)} = 0.03$.
-These hyperparameters were tuned by performing a log-scale grid search within two orders of magnitude around the default value~$1$; we chose those yielding the best validation results. 
+These hyperparameters were tuned by performing a log-scale grid search within two orders of magnitude around the default value~$1$; we chose those yielding the best validation results.
 
 For the VAE model, the KL penalty is weighted by $\hyp{kl(s)}$ and $\hyp{kl(c)}$ for style and content, respectively.
 We set both to $0.03$, tuned by the same method of log-scale grid search. During training, we also used the $\operatorname{sigmoid}$ KL annealing schedule, following \citet{bahuleyan2018probabilistic}.
@@ -420,17 +420,17 @@ We show t-SNE plots for ablation tests with different combinations of auxiliary 
 	\resizebox{\textwidth}{!}{
 		\begin{tabular}{|l||c|c|c|c|c||c|c|c|c|c| }
 			\hline
-			\tabc{2}{Model}                            & \multicolumn{5}{c||}{\textbf{Yelp Dataset}} & \multicolumn{5}{c|}{\textbf{Amazon Dataset}}                                                                                                                                                                                \\ \cline{2-11}
-			                                           & \textbf{STA}$^\uparrow$                                & \textbf{CS}$^\uparrow$                                  & \textbf{WO}$^\uparrow$       & \textbf{PPL}$^\downarrow$     & \textbf{GM}$^\uparrow$       & \textbf{STA}$^\uparrow$               & \textbf{CS}$^\uparrow$                & \textbf{WO}$^\uparrow$       & \textbf{PPL}$^\downarrow$    & \textbf{GM}$^\uparrow$      \\
+			\tabc{2}{Model}                            & \multicolumn{5}{c||}{\textbf{Yelp Dataset}} & \multicolumn{5}{c|}{\textbf{Amazon Dataset}}                                                                                                                                                                                                                           \\ \cline{2-11}
+			                                           & \textbf{STA}$^\uparrow$                     & \textbf{CS}$^\uparrow$                       & \textbf{WO}$^\uparrow$ & \textbf{PPL}$^\downarrow$ & \textbf{GM}$^\uparrow$ & \textbf{STA}$^\uparrow$    & \textbf{CS}$^\uparrow$     & \textbf{WO}$^\uparrow$ & \textbf{PPL}$^\downarrow$ & \textbf{GM}$^\uparrow$     \\
 			\hline\hline
-			Style-Embedding \cite{fu2018style}         & \color{gray}0.18                            & \color{gray} 0.96                            & \color{gray} 0.67 & \color{gray} 124 & \color{gray} 0.10 & \color{gray} \ 0.40$^\dag$ & \color{gray} \ 0.93$^\dag$ & \color{gray} 0.36 & \color{gray} 32 & \color{gray} \textbf{0.17} \\ \hline
-			Cross-Alignment \cite{shen2017style}       & \ 0.78$^\dag$                               & 0.89                                         & 0.21              & 93               & 0.12              & 0.61                       & 0.89                       & 0.02              & 202             & 0.04              \\ \hline
-			Multi-Decoder \cite{zhao2018adversarially} & \ 0.82$^\dag$                               & 0.88                                         & 0.27              & 85               & 0.14              & 0.55                       & \textbf{0.93}              & 0.17              & 75              & 0.11              \\ \hline
-			Del-Ret-Gen \cite{li2018delete} $^\ddag$   & 0.86                                        & \textbf{0.94}                                & 0.52              & 70               & 0.19     & \color{gray}0.43           & \color{gray} 0.98          & \color{gray} 0.80 & \color{gray} 65 & \color{gray} \textbf{0.17} \\ \hline
-			BackTranslate \cite{prabhumoye2018style}   & 0.85                                        & 0.83                                         & 0.08              & 206              & 0.07              & \textbf{0.83}              & 0.82                       & 0.02              & 115             & 0.05              \\ \hline
-			Cycle-RL \cite{xu2018unpaired} $^\ddag$    & 0.80                                        & 0.92                                         & 0.43              & 470              & 0.09              & 0.72                       & 0.91                       & {0.22}     & 332             & 0.08              \\ \hline\hline
-			Ours (DAE)                                 & 0.88                                        & 0.92                                         & \textbf{0.55}     & 52              & 0.21              & 0.72                       & 0.92                       & \textbf{0.35}              & 73              & \textbf{0.15}     \\ \hline
-			Ours (VAE)                                 & \textbf{0.93}                               & 0.90                                         & 0.47              & \textbf{32}      & \textbf{0.24}     & 0.82                       & 0.90                       & 0.20              & \textbf{63}     & 0.14              \\ \hline
+			Style-Embedding \cite{fu2018style}         & \color{gray}0.18                            & \color{gray} 0.96                            & \color{gray} 0.67      & \color{gray} 124          & \color{gray} 0.10      & \color{gray} \ 0.40$^\dag$ & \color{gray} \ 0.93$^\dag$ & \color{gray} 0.36      & \color{gray} 32           & \color{gray} \textbf{0.17} \\ \hline
+			Cross-Alignment \cite{shen2017style}       & \ 0.78$^\dag$                               & 0.89                                         & 0.21                   & 93                        & 0.12                   & 0.61                       & 0.89                       & 0.02                   & 202                       & 0.04                       \\ \hline
+			Multi-Decoder \cite{zhao2018adversarially} & \ 0.82$^\dag$                               & 0.88                                         & 0.27                   & 85                        & 0.14                   & 0.55                       & \textbf{0.93}              & 0.17                   & 75                        & 0.11                       \\ \hline
+			Del-Ret-Gen \cite{li2018delete} $^\ddag$   & 0.86                                        & \textbf{0.94}                                & 0.52                   & 70                        & 0.19                   & \color{gray}0.43           & \color{gray} 0.98          & \color{gray} 0.80      & \color{gray} 65           & \color{gray} \textbf{0.17} \\ \hline
+			BackTranslate \cite{prabhumoye2018style}   & 0.85                                        & 0.83                                         & 0.08                   & 206                       & 0.07                   & \textbf{0.83}              & 0.82                       & 0.02                   & 115                       & 0.05                       \\ \hline
+			Cycle-RL \cite{xu2018unpaired} $^\ddag$    & 0.80                                        & 0.92                                         & 0.43                   & 470                       & 0.09                   & 0.72                       & 0.91                       & {0.22}                 & 332                       & 0.08                       \\ \hline\hline
+			Ours (DAE)                                 & 0.88                                        & 0.92                                         & \textbf{0.55}          & 52                        & 0.21                   & 0.72                       & 0.92                       & \textbf{0.35}          & 73                        & \textbf{0.15}              \\ \hline
+			Ours (VAE)                                 & \textbf{0.93}                               & 0.90                                         & 0.47                   & \textbf{32}               & \textbf{0.24}          & 0.82                       & 0.90                       & 0.20                   & \textbf{63}               & 0.14                       \\ \hline
 		\end{tabular}}
 	\vspace{-.2cm}
 	\caption{Performance of text style transfer. \textbf{STA:} Style transfer accuracy. \textbf{CS:} Cosine similarity. \textbf{WO:} Word overlap. \textbf{PPL:} Perplexity. \textbf{GM:} Geometric mean. The larger$^\uparrow$ (or lower$^\downarrow$), the better.  $^\dag$Quoted from previous papers (with the same data split). $^\ddag$Involving custom data splits, providing a rough (but unbiased) comparison. Others are based on our replication, and we use published code whenever possible. We achieve 0.809 and 0.835 transfer accuracy on the Yelp dataset, close to the results in \citet{shen2017style} and \citet{zhao2018adversarially}, respectively, showing that our replication is fair. Gray numbers show that a method fails transfer style most of the time.}\vspace{-.2cm}
@@ -453,7 +453,7 @@ Thus, it provides a quantitative way of evaluating the strength of style transfe
 We followed \citet{fu2018style} and computed the cosine measure between source and generated sentence embeddings, which are the concatenation of $\operatorname{min}$, $\operatorname{max}$, and $\operatorname{mean}$ of word embeddings (sentiment words removed). This provides a rough estimation of content preservation.
 %Then, we computed the cosine similarity between the source and generated sentences' embeddings, serving as a rough estimation of content preservation.
 
- \textit{Word Overlap} (\textbf{WO}):
+\textit{Word Overlap} (\textbf{WO}):
 We find that the cosine similarity measure, although more or less correlated to human judgment, is not a sensitive measure. We propose a simple yet effective measure that counts the unigram word overlap rate of the original sentence $\mathrm x$ and the style-transferred sentence $\mathrm y$, computed by $\frac{count(w_{\mathrm x} \cap w_{\mathrm y})}{count(w_{\mathrm x} \cup w_{\mathrm y})}$.
 Here, we exclude both stopwords and sentiment words.
 
@@ -463,7 +463,7 @@ It estimates the empirical distribution of trigrams in a corpus, and computes th
 We trained the language model on the respective datasets, and report PPL on the generated sentences. A smaller PPL indicates more fluent sentences.
 
 \textit{Geometric Mean} (\textbf{GM}):
-We use the geometric mean of STA, WO, and 1/PPL---reflecting transfer strength, content preservation, and fluency, respectively---to obtain an aggregated score considering all aspects.  Notice that a smaller PPL is desired; thus, we use 1/PPL when computing GM. Also, cosine similarity (CS) is not included, because it is insensitive yet repetitive with word overlap (WO).  Here, we adopt the geometric mean so that the scale of each metric does not influence the judgment.  
+We use the geometric mean of STA, WO, and 1/PPL---reflecting transfer strength, content preservation, and fluency, respectively---to obtain an aggregated score considering all aspects.  Notice that a smaller PPL is desired; thus, we use 1/PPL when computing GM. Also, cosine similarity (CS) is not included, because it is insensitive yet repetitive with word overlap (WO).  Here, we adopt the geometric mean so that the scale of each metric does not influence the judgment.
 
 
 \textit{Manual Evaluation:}
@@ -492,45 +492,44 @@ The inter-rater agreement---as measured by Krippendorff's alpha \cite{krippendor
 \end{table}
 
 \begin{table*}[ht]
- 	\centering\vspace{-.2cm}\small
- 	\begin{tabular}{| l || c | c | c | c | c |}
- 		\hline
- 		\tabc{2}{Objectives}                                                            & \multirow{2}{*}{\textbf{STA}} & \multirow{2}{*}{\textbf{CS}} & \multirow{2}{*}{\textbf{WO}} & \textbf{GM}       & \multirow{2}{*}{\textbf{PPL}} \\
- 		                                                                                &                               &                              &                              & \textbf{(STA,WO)} &                               \\
- 		\hline\hline
- 		$\loss{AE}$                                                                     & 0.11                          & \textbf{0.94}                & \textbf{0.47}                         & 0.22              & 40                            \\ \hline
- 		$\loss{AE}$, $\loss{mul(s)}$                                                    & 0.77                          & 0.91                         & 0.33                         & 0.50              & 41                            \\ \hline
- 		% $\loss{AE}$, $\loss{mul(c)}$                                                    & 0.16            & 0.93              & 0.63           & -           & -          \\ \hline
- 		$\loss{AE}$, $\loss{adv(s)}$                                                    & 0.78                          & 0.89                         & 0.23                         & 0.42              & 35                            \\ \hline
- 		 %$\loss{AE}$, $\loss{adv(c)}$                                                    & 0.10            & 0.94              & 0.47           & -           & -          \\ \hline
- 		 %$\loss{AE}$, $\loss{mul(s)}$, $\loss{mul(c)}$                                   & 0.82            & 0.93              & 0.56           & -           & -          \\ \hline
- 		$\loss{AE}$, $\loss{mul(s)}$, $\loss{adv(s)}$                                   & 0.91                          & 0.87                         & 0.17                         & 0.40              & \textbf{23}                   \\ \hline
- 		 %$\loss{AE}$, $\loss{mul(s)}$, $\loss{adv(c)}$                                   & 0.78            & 0.91              & 0.32           & -           & -          \\ \hline
- 		 %$\loss{AE}$, $\loss{mul(c)}$, $\loss{adv(s)}$                                   & 0.82            & 0.89              & 0.51           & -           & -          \\ \hline
- 		 %$\loss{AE}$, $\loss{mul(c)}$, $\loss{adv(c)}$                                   & 0.15            & 0.93              & 0.62           & -           & -          \\ \hline
- 		 %$\loss{AE}$, $\loss{adv(s)}$, $\loss{adv(c)}$                                   & 0.78            & 0.88              & 0.21           & -           & -          \\ \hline
- 		 %$\loss{AE}$, $\loss{mul(s)}$, $\loss{mul(c)}$, $\loss{adv(s)}$                  & 0.92            & 0.90              & 0.48           & -           & -          \\ \hline
- 		 %$\loss{AE}$, $\loss{mul(s)}$, $\loss{mul(c)}$, $\loss{adv(c)}$                  & 0.84            & 0.92              & 0.56           & -           & -          \\ \hline
- 		 %$\loss{AE}$, $\loss{mul(s)}$, $\loss{adv(s)}$, $\loss{adv(c)}$                  & 0.93            & 0.86              & 0.16           & -           & -          \\ \hline
- 		 %$\loss{AE}$, $\loss{mul(c)}$, $\loss{adv(s)}$, $\loss{adv(c)}$                  & 0.81            & 0.90              & 0.50           & -           & -          \\ \hline
- 		$\loss{AE}$, $\loss{mul(s)}$, $\loss{adv(s)}$, $\loss{mul(c)}$, $\loss{adv(c)}$ & \textbf{0.93}                 & 0.90                         & \textbf{0.47}                & \textbf{0.66}     & 32                            \\ \hline
- 	\end{tabular}\vspace{-.2cm}
- 	\caption{Ablation tests on the Yelp dataset. In all variants, we follow the same protocol of style transfer by substituting an empirical estimate of the target style vector.}
- 	\label{tab:ablation-results}
- \end{table*}
+	\centering\vspace{-.2cm}\small
+	\begin{tabular}{| l || c | c | c | c || c |}
+		\hline
+		\tabc{1}{Objectives}                                                            & \textbf{STA}  & \textbf{CS}   & \textbf{WO}   & \textbf{PPL} & \textbf{GM}   \\
+		\hline\hline
+		$\loss{AE}$                                                                     & 0.11          & \textbf{0.94} & \textbf{0.47} & 40           & 0.11          \\ \hline
+		$\loss{AE}$, $\loss{mul(s)}$                                                    & 0.77          & 0.91          & 0.33          & 41           & 0.18          \\ \hline
+		% $\loss{AE}$, $\loss{mul(c)}$                                                    & 0.16          & 0.93          & 0.63          & -            & -             \\ \hline
+		$\loss{AE}$, $\loss{adv(s)}$                                                    & 0.78          & 0.89          & 0.23          & 35           & 0.17          \\ \hline
+		% $\loss{AE}$, $\loss{adv(c)}$                                                    & 0.10          & 0.94          & 0.47          & -            & -             \\ \hline
+		% $\loss{AE}$, $\loss{mul(s)}$, $\loss{mul(c)}$                                   & 0.82          & 0.93          & 0.56          & -            & -             \\ \hline
+		$\loss{AE}$, $\loss{mul(s)}$, $\loss{adv(s)}$                                   & 0.91          & 0.87          & 0.17          & \textbf{23}  & 0.19          \\ \hline
+		% $\loss{AE}$, $\loss{mul(s)}$, $\loss{adv(c)}$                                   & 0.78          & 0.91          & 0.32          & -            & -             \\ \hline
+		% $\loss{AE}$, $\loss{mul(c)}$, $\loss{adv(s)}$                                   & 0.82          & 0.89          & 0.51          & -            & -             \\ \hline
+		% $\loss{AE}$, $\loss{mul(c)}$, $\loss{adv(c)}$                                   & 0.15          & 0.93          & 0.62          & -            & -             \\ \hline
+		% $\loss{AE}$, $\loss{adv(s)}$, $\loss{adv(c)}$                                   & 0.78          & 0.88          & 0.21          & -            & -             \\ \hline
+		% $\loss{AE}$, $\loss{mul(s)}$, $\loss{mul(c)}$, $\loss{adv(s)}$                  & 0.92          & 0.90          & 0.48          & -            & -             \\ \hline
+		% $\loss{AE}$, $\loss{mul(s)}$, $\loss{mul(c)}$, $\loss{adv(c)}$                  & 0.84          & 0.92          & 0.56          & -            & -             \\ \hline
+		% $\loss{AE}$, $\loss{mul(s)}$, $\loss{adv(s)}$, $\loss{adv(c)}$                  & 0.93          & 0.86          & 0.16          & -            & -             \\ \hline
+		% $\loss{AE}$, $\loss{mul(c)}$, $\loss{adv(s)}$, $\loss{adv(c)}$                  & 0.81          & 0.90          & 0.50          & -            & -             \\ \hline
+		$\loss{AE}$, $\loss{mul(s)}$, $\loss{adv(s)}$, $\loss{mul(c)}$, $\loss{adv(c)}$ & \textbf{0.93} & 0.90          & \textbf{0.47} & 32           & \textbf{0.24} \\ \hline
+	\end{tabular}\vspace{-.2cm}
+	\caption{Ablation tests on the Yelp dataset. In all variants, we follow the same protocol of style transfer by substituting an empirical estimate of the target style vector.}
+	\label{tab:ablation-results}
+\end{table*}
 \textbf{Overall performance.}
 We compare our approach with previous state-of-the-art work in Table \ref{tab:comparison-previous}.
-For baseline methods, we quote results from existing papers whenever possible. In some studies, the authors release their style-transferred sentences, and we tested them with our metrics. A caveat is that this may involve a different data spit, providing a rough (but unbiased) comparison. For others, we re-implemented the model using publicly available code. 
+For baseline methods, we quote results from existing papers whenever possible. In some studies, the authors release their style-transferred sentences, and we tested them with our metrics. A caveat is that this may involve a different data spit, providing a rough (but unbiased) comparison. For others, we re-implemented the model using publicly available code.
 
 We can see a clear trade-off between style transfer and content preservation, as they are contradictory goals. Especially, a few models have a transfer accuracy lower than 50\%. They are shown in gray, and not the focus of the comparison because the system cannot achieve the goal of style transfer most of the time.
 
-The results show that our method achieves high style-transfer accuracy (STA). On Yelp, for example, VAE outperforms previous methods by more than 7\%, whereas on Amazon, VAE is 1\% lower than \newcite{prabhumoye2018style}, ranking the second. 
+The results show that our method achieves high style-transfer accuracy (STA). On Yelp, for example, VAE outperforms previous methods by more than 7\%, whereas on Amazon, VAE is 1\% lower than \newcite{prabhumoye2018style}, ranking the second.
 
 In the meantime, our approach achieves high content preservation as well. Among all the methods that can achieve more than 50\% transfer accuracy, DAE has a highest word overlap (WO) on Yelp; VAE is also high, although slightly lower than \newcite{li2018delete}. On Amazon, the phenomenon is similar. DAE is the best; VAE is 2\% worse than in word overlap rate  (although 10\% better in transfer accuracy), compared with \newcite{xu2018unpaired}.
 
 For language fluency, VAE yields the best PPL in both datasets. It is also noted that, the cycle reinforcement learning (CycleRL) approach does not generate fluent sentences~\cite{xu2018unpaired}. They have unusually high PPL scores, but after reading the samples provided by the authors \footnote{Personal correspondence}, we are assured that the sentences obtained by cycleRL are less fluent.
 
-When we consider all the above aspects, our approach (either DAE or VAE) has the highest geometric meaning (GM), showing that we have achieved good performance in transfer strength, content preservation, as well as language fluency. 
+When we consider all the above aspects, our approach (either DAE or VAE) has the highest geometric meaning (GM), showing that we have achieved good performance in transfer strength, content preservation, as well as language fluency.
 
 
 Table~\ref{tab:manual-evaluation} presents the results of  human evaluation on selected methods.\footnote{Selection was based on the time of availability. Due to the limit of budgets, we did not re-conduct human evaluation when new approaches are published later.} Again, we see that the style embedding model \cite{fu2018style} is ineffective as it has a very low transfer strength, and that our method outperforms other baselines in all aspects. The results are consistent with the automatic metrics in Table~\ref{tab:comparison-previous}. This implies that the automatic metrics we used are reasonable, and could be  extrapolated to different models; it also shows consistent evidence of the effectiveness of our approach.
@@ -538,7 +537,7 @@ Table~\ref{tab:manual-evaluation} presents the results of  human evaluation on s
 
 
 
- 
+
 
 % \begin{table*}[!t]
 % 	\centering
@@ -570,8 +569,8 @@ Table~\ref{tab:manual-evaluation} presents the results of  human evaluation on s
 
 
 \textbf{Ablation Test.} We conducted ablation tests on the Yelp dataset, and show results in Table~\ref{tab:ablation-results}. With $\loss{VAE}$ only, we cannot achieve reasonable style transfer accuracy by substituting an empirically estimated style vector of the target style.  This is because the style and content spaces would not be disentangled spontaneously with the autoencoding loss alone.
- With either $\loss{mul(s)}$ or $\loss{adv(s)}$, the model achieves reasonable transfer accuracy and cosine similarity. Combining them together improves the transfer accuracy to 90\%, outperforming previous methods by a margin of 10\% (Table~\ref{tab:comparison-previous}). This shows that the multi-task loss and the adversarial loss work in different ways. Our insight of combining the two auxiliary losses is a simple yet effective way of disentangling latent space.
- However, $\loss{mul(s)}$ and $\loss{adv(s)}$ only regularize the style information, leading to gradual drop of content preserving scores. Then, we have another insight of introducing content-oriented auxiliary losses, $\loss{mul(c)}$ and $\loss{adv(c)}$, based on BoW features, which regularize the content information in the same way as the style information. By incorporating all these auxiliary losses, we achieve high transfer accuracy, high content preservation, as well as high language fluency.
+With either $\loss{mul(s)}$ or $\loss{adv(s)}$, the model achieves reasonable transfer accuracy and cosine similarity. Combining them together improves the transfer accuracy to 90\%, outperforming previous methods by a margin of 10\% (Table~\ref{tab:comparison-previous}). This shows that the multi-task loss and the adversarial loss work in different ways. Our insight of combining the two auxiliary losses is a simple yet effective way of disentangling latent space.
+However, $\loss{mul(s)}$ and $\loss{adv(s)}$ only regularize the style information, leading to gradual drop of content preserving scores. Then, we have another insight of introducing content-oriented auxiliary losses, $\loss{mul(c)}$ and $\loss{adv(c)}$, based on BoW features, which regularize the content information in the same way as the style information. By incorporating all these auxiliary losses, we achieve high transfer accuracy, high content preservation, as well as high language fluency.
 
 % Table~\ref{tab:transfer-samples} provides several examples of our style-transfer model. Results show that we can successfully transfer the sentiment while preserving the content of a sentence.
 % We see that, with the empirically estimated style vector, we can reliably control the sentiment of generated sentences.
@@ -588,7 +587,7 @@ s
 \bibliographystyle{acl_natbib}
 
 \newpage
-\ \ 
+\ \
 
 \newpage
 \appendix
