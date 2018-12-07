@@ -13,6 +13,8 @@
 
 \documentclass[11pt,a4paper]{article}
 \usepackage[hyperref]{naaclhlt2019}
+%\usepackage[nohyperref]{naaclhlt2019}
+
 \usepackage{times}
 \usepackage{latexsym}
 
@@ -85,7 +87,7 @@
 \graphicspath{{images/}}
 
 \begin{abstract}
-	This paper tackles the problem of disentangling the latent variables of style and content in language models. We propose a simple yet effective approach, which incorporates auxiliary multi-task and adversarial objectives, for label prediction and bag-of-words prediction, respectively. We show, both qualitatively and quantitatively, that the style and content are indeed disentangled in the latent space. This disentangled latent representation learning can be applied to style transfer on non-parallel corpora. We achieve substantially better results in terms of transfer accuracy, content preservation and language fluency, in comparison to previous state-of-the-art approaches.\footnote{Our code is publicly available at \url{bit.ly/2wxps69}. The materials are properly anonymized during double-blind review.}
+	This paper tackles the problem of disentangling the latent variables of style and content in language models. We propose a simple yet effective approach, which incorporates auxiliary multi-task and adversarial objectives, for label prediction and bag-of-words prediction, respectively. We show, both qualitatively and quantitatively, that the style and content are indeed disentangled in the latent space. This disentangled latent representation learning can be applied to style transfer on non-parallel corpora. We achieve substantially better results in terms of transfer accuracy, content preservation and language fluency, in comparison to previous state-of-the-art approaches.\footnote{Our code is available at \url{bit.ly/2wxps69}. The materials are properly anonymized during double-blind review.}
 	% \footnote{\url{https://github.com/vineetjohn/linguistic-style-transfer}}.
 \end{abstract}
 
@@ -117,17 +119,16 @@ In previous work, researchers typically work with the style, or specifically, se
 In our paper, we propose to approximate the content information by bag-of-words (BoW) features, where we focus on style-neutral, non-stopwords.
 Along with traditional style-oriented auxiliary losses, our BoW multi-task loss and BoW adversarial loss make the style and content spaces much more disentangled from each other.
 
-The learned disentangled latent space can be directly used for text style-transfer~\cite{hu2017toward,shen2017style}, which aims to transform a given sentence to a new sentence with the same content but a different style.
-Since it is difficult to obtain training sentence pairs with the same content and differing styles (i.e. parallel corpora), we follow the setting where we train our model on a non-parallel but style-labeled corpora. We call this \textit{non-parallel text style transfer}.
-To accomplish this, we train an autoencoder with disentangled latent spaces.
-For style-transfer inference, we simply use the autoencoder to encode the content vector of a sentence, but ignore its encoded style vector.
+The learned disentangled latent space can be directly used for text style transfer, which aims to transform a given sentence to a new sentence with the same content but a different style.
+We follow the setting where we train our model on a non-parallel but style-labeled corpora~\cite{hu2017toward,shen2017style}, and call it \textit{non-parallel text style transfer}.
+With our disentangled latent space, we simply use the autoencoder to encode the content vector of a sentence, but ignore its encoded style vector.
 We then infer from the training data, an empirical embedding of the style that we would like to transfer.
 The encoded content vector and the empirically-inferred style vector are concatenated and fed to the decoder.
 This grafting technique enables us to obtain a new sentence similar in content to the input sentence, but with a different style.
 We conducted experiments on two customer review datasets.
 Qualitative and quantitative results show that both the style and content spaces are indeed disentangled well.
-In the style-transfer evaluation, we achieve substantially better style-transfer strength, content preservation, and language fluency scores, compared with previous results.
-Ablation tests also show that the auxiliary losses can be combined well, each playing its own role in disentangling the latent space.
+In the style-transfer evaluation, we achieve high performance in style-transfer strength, content preservation, as well as language fluency scores, compared with previous results.
+%Ablation tests also show that the auxiliary losses can be combined well, each playing its own role in disentangling the latent space.
 
 
 \section{Related Work}
@@ -136,15 +137,16 @@ Disentangling neural networks' latent space has been explored in the image proce
 Some image characteristics (e.g., artistic style) can be captured well by certain statistics \cite{gatys2016image}.
 In other work, researchers adopt data augmentation techniques to learn a disentangled latent space~\cite{kulkarni2015deep,champandard2016semantic}.
 
-In natural language processing, the definition of ``style'' itself is vague, and as a convenient starting point, NLP researchers often treat sentiment as a salient style of text.
-\citet{hu2017toward} manage to control the sentiment by using discriminators to reconstruct sentiment and content from generated sentences.
+In NLP, the definition of ``style'' itself is vague, and as a convenient starting point, researchers often treat sentiment as a salient style of text.
+\citet{hu2017toward} propose to control the sentiment by using discriminators to reconstruct sentiment and content from generated sentences.
 However, there is no evidence that the latent space would be disentangled by this reconstruction.
 \citet{shen2017style} use a pair of adversarial discriminators to align the recurrent hidden decoder states of original and style-transferred sentences, for a given style.
-\citet{fu2018style} propose two approaches: training style-specific embeddings, and training separate style-specific decoders for style-transfer. They apply an adversarial loss on the encoded space to discourage encoding style in the latent space of an autoencoding model.
-\citet{li2018delete} use a phrase replacement and generation method by which the markers that are indicative of particular attributes are removed or inserted to the source sentences, following which a new sentence is generated in the target style.
-\citet{prabhumoye2018style} use a machine-translation preprocessing step to strip author style from documents, and then use a multi-decoder model to convert the result into a sentence with a specific style.
-\citet{xu2018unpaired} use `neutralization' and `emotionalization' modules in a reinforcement learning model to achieve the same objective.
-\citet{zhao2018adversarially} extend the multi-decoder approach and use a Wasserstein-distance penalty to align content representations of sentences with different styles. However, the Wasserstein penalty is applied to  empirical samples from the data distribution, and is more indirect than our BoW-based auxiliary losses.
+\citet{fu2018style} propose two approaches: training style-specific embeddings, and training separate style-specific decoders for style-transfer. They apply an adversarial loss on the encoded space to discourage encoding style in the latent space of an autoencoding model. \citet{zhao2018adversarially} extend the multi-decoder approach and use a Wasserstein-distance penalty to align content representations of sentences with different styles. However, the Wasserstein penalty is applied to  empirical samples from the data distribution, and is more indirect than our BoW-based auxiliary losses. \citet{prabhumoye2018style} use a machine-translation preprocessing step to strip author style from documents, and then use a multi-decoder model to convert the result into a sentence with a specific style.
+\citet{xu2018unpaired} propose the ``neutralization'' and ``emotionalization'' modules in a reinforcement learning framework.
+
+
+\citet{li2018delete} propose a hybrid a retrieval and generation method, that generates a desired sentence with input content and a retrieved style.
+
 \citet{rao2018dear} treat the formality of writing as a style, and create a parallel corpus for style transfer with sequence-to-sequence models. This is beyond the scope of our paper, as we focus on non-parallel text style transfer.
 
 Our paper differs from previous work in that both our style space and content space are encoded from the input, and we design several auxiliary losses to ensure that each space encodes and only encodes the desired information.
@@ -153,17 +155,9 @@ The disentangled representation can be directly applied to non-parallel text sty
 
 
 \section{Approach}
+Figure~\ref{fig:overview} shows the overall framework of our approach. We will first present the autoencoder, serving as our base model. Then we design the auxiliary losses for style and content disentanglement.
+Finally, we introduce our approach to style-transfer text generation.
 
-In this section, we describe our approach in detail, shown in Figure~\ref{fig:overview}.
-Our model is built upon an autoencoder with a sequence-to-sequence neural network~\cite{sutskever2014sequence}, and we design multi-task and adversarial losses for both style and content spaces.
-Finally, we present our approach to transfer style in the context of natural language generation.
-
-\begin{figure}[!t]
-	\centering
-	\includegraphics[width=.9\linewidth]{model-overview}
-	\caption{Overview of our approach.}
-	\label{fig:overview}
-\end{figure}
 
 \subsection{Autoencoder} \label{ssec:seq2seq-autoencoder}
 
@@ -173,70 +167,74 @@ The latent vector space is usually of much smaller dimensionality than input dat
 %Besides, we also use the autoencoder for text generation in the style-transfer application.
 
 Let $\rmx=(x_1, x_2, \cdots x_n)$ be an input sequence with $n$ tokens.
-The encoder recurrent neural network (RNN) with gated recurrent units (GRU) \cite{cho2014learning} encodes $\rm x$ and obtains a hidden vector representation $\bm h$, which is linearly transformed from the encoder RNN's final hidden state.
+The encoder recurrent neural network (RNN) with gated recurrent units~\cite[GRUs,][]{cho2014learning} encodes $\rm x$ and obtains a hidden vector representation $\bm h$, which is linearly transformed from the encoder RNN's final hidden state.
+
+
+\begin{figure}[!t]
+	\centering
+	\includegraphics[width=.9\linewidth]{model-overview}
+	\caption{Overview of our approach.}
+	\label{fig:overview}
+\end{figure}
 
 Then a decoder RNN generates a sentence, which ideally should be $\rmx$ itself.
-Suppose at a time step $t$, the decoder RNN predicts the word $x_t$ with probability $p(x_t|\bm h, x_1\cdots x_{t-1})$. Then the autoencoder is trained with a sequence-aggregated cross-entropy loss, given by
-\begin{equation}\label{eqn:ae}
-	\loss{AE}(\nnweight{E},\nnweight{D})= -\sum_{t=1}^n \log p(x_t|\bm h, x_1\cdots x_{t-1})
+Suppose at a time step $t$, the decoder RNN predicts the word $x_t$ with probability $p(x_t|\bm h, x_1\cdots x_{t-1})$. Then, the autoencoder is trained with a sequence-aggregated cross-entropy loss, given by
+\begin{equation}\nonumber
+	\loss{AE}(\nnweight{E},\nnweight{D})= -\sum\nolimits_{t=1}^n \log p(x_t|\bm h, x_1\cdots x_{t-1})
 \end{equation}
-where $\nnweight{E}$ and $\nnweight{D}$ are the parameters of the encoder and decoder, respectively.\footnote{For brevity, we only present the loss for a single data point (i.e., a sentence) throughout the paper. The total loss sums over all data points, and is implemented using mini-batches.} Both the encoder and decoder are deterministic functions in the original autoencoder model~\cite{rumelhart1985learning}, and thus we call it a \textit{deterministic autoencoder} (DAE).
+where $\nnweight{E}$ and $\nnweight{D}$ are the parameters of the encoder and decoder, respectively.\footnote{For brevity, we only present the loss for a single data point (i.e., a sentence) throughout the paper. Total loss sums over all data points, and is implemented with mini-batches.} Both the encoder and decoder are deterministic functions in the original model~\cite{rumelhart1985learning}, and thus, we call it a \textit{deterministic autoencoder} (DAE).
 
 
-\textbf{Variational Autoencoder.} In addition to DAE, we also implement a variational autoencoder (VAE) \cite{kingma2013auto}, which imposes a probabilistic distribution on the latent vector. The Kullback-Leibler (KL) divergence \cite{kullback1951information} penalty is added to the loss function to regularize the latent space. The decoder reconstructs data based on the sampled latent vector from its posterior distribution.
+\textbf{Variational Autoencoder.} Alternatively, we may use a variational autoencoder~\cite[VAE,][]{kingma2013auto}, which imposes a probabilistic distribution on the latent vector. The decoder reconstructs data based on the sampled latent vector from its posterior, and the Kullback--Leibler~(KL, \citeyear{kullback1951information}) divergence  is penalized for regularization. 
 
 Formally, the autoencoding loss in the VAE is
-\begin{align}\label{eqn:vae}
-	\loss{AE}(\nnweight{E}, \nnweight{D}) = & - \mathbb{E}_{q_{E}(\bm h|\rmx)} [\log p(\rmx|\bm h)]  \nonumber \\
+\begin{align}
+	\loss{AE}(\nnweight{E}, \nnweight{D}) = & - \mathbb{E}_{q_{E}(\bm h|\rmx)} [\log p(\rmx|\bm h)]  \nonumber \\ \nonumber
 	                                        & + \hyp{kl}\operatorname{KL}(q_{E}(\bm h|\rmx)\|p(\bm h))
 \end{align}
-where $\hyp{kl}$ is the hyperparameter balancing the reconstruction loss and the KL term. $p(\bm h)$ is the prior, set to the standard normal distribution $\mathcal{N}(\bm 0,\mathrm I)$. $q_E(\bm h|\mathrm x)$ is the posterior taking the form $\mathcal{N}(\bm \mu,\operatorname{diag} \bm\sigma)$, where $\bm\mu$ and $\bm\sigma$ are predicted by the encoder network.
-The motivation for using VAE as opposed to DAE is that the reconstruction is based on the samples of the posterior, which populates encoded vectors to the neighborhood and thus smooths the latent space.
+where $\hyp{kl}$ is the hyperparameter balancing the reconstruction loss and the KL term. $p(\bm h)$ is the prior, typically the standard normal  $\mathcal{N}(\bm 0,\mathrm I)$. $q_E(\bm h|\mathrm x)$ is the posterior in the form $\mathcal{N}(\bm \mu,\operatorname{diag} \bm\sigma)$, where $\bm\mu$ and $\bm\sigma$ are predicted by the encoder.
+
+Compared with DAE, the reconstruction of VAE  is based on the samples of the posterior, which populates encoded vectors to the neighborhood and thus smooths the latent space.
 \citet{bowman2016generating} show that VAE enables more fluent sentence generation from a latent space than DAE.
 
-The autoencoding losses in Equations~(\ref{eqn:ae},\ref{eqn:vae}) serve as our primary training objective.
-Besides, the autoencoder is also used for text generation in the style-transfer application.
+The above autoencoding losses serve as our primary training objective.
 We also design several auxiliary losses to disentangle the latent space. In particular, we hope that $\bm h$ can be separated into two spaces $\bm s$ and $\bm c$, representing style and content, respectively, i.e., $\bm h = [\bm s ; \bm c]$, where $[\cdot;\cdot]$ denotes concatenation.
 This is accomplished by the auxiliary losses described in the rest of this section.
 
 
 \subsection{Style-Oriented Losses}
 
-We first design auxiliary losses that ensure the style information is contained in the style space $\bm s$.
-This involves a multi-task loss that ensures $\bm s$ is discriminative for the style, as well as an adversarial loss that ensures $\bm c$ is not discriminative for the style.
+We first design auxiliary losses that ensure the style information is contained in the style space~$\bm s$.
+This involves a multi-task loss that ensures $\bm s$ is discriminative for the style, as well as an adversarial loss that ensures $\bm c$ is not.
 
-\subsubsection{Multi-Task Loss for Style.} \label{ssec:multitask-style-objective}
-Although the corpus we use is non-parallel, we assume that each sentence is labeled with its style. In particular, we treat the sentiment as the style of interest, following previous work~\cite{hu2017toward,shen2017style,fu2018style,zhao2018adversarially}, and each sentence is labeled with a binary sentiment tag (positive or negative).
+\textbf{Multi-Task Loss for Style.} In the dataset, each sentence is labeled with its style (positive or negative), particularly, binary sentiment, following most previous work~\cite{hu2017toward,shen2017style,fu2018style,zhao2018adversarially}.
 
-We build a classifier on the style space that predicts the style label. Formally, a two-way softmax layer (equivalent to logistic regression) is applied to the style vector $\bm s$, given by
+We build a two-way softmax classifier (equivalent to logistic regression) on the style space $\bm s$ to predict the style label, given by
 \begin{equation} \label{eqn:class-pred}
 	\bm y_s = \operatorname{softmax}(\weight{mul(s)} \bm s + \bias{mul(s)})
 \end{equation}
 where $\nnweight{mul(s)}=[\weight{mul(s)}; \bias{mul(s)}]$ are parameters for multi-task learning of style, and $\bm y_s$ is the output of softmax layer.
 
-The classifier is trained with a simple cross-entropy loss against the ground truth distribution $t_s(\cdot)$, given by
+The classifier is trained with cross-entropy loss against the groundtruth distribution $t_s(\cdot)$ by
 \begin{equation} \label{eqn:style-multi-task-loss}
-	\loss{mul(s)}(\nnweight{E};\nnweight{mul(s)}) = - \sum\nolimits_{l\in\text{labels}} t_s(l)\log y_s(l)
+	\loss{mul(s)}(\nnweight{E};\nnweight{mul(s)}) = - \sum_{l\in\text{labels}} t_s(l)\log y_s(l)
 \end{equation}
-where $\nnweight{E}$ are the encoder's parameters.
 
-We train the style classifier at the same time as the autoencoding loss.
+In fact, we train the style classifier at the same time as the autoencoding loss.
 Thus, this could be viewed as \textit{multi-task} learning, incentivizing the entire model to not only decode the sentence, but also predict its sentiment from the style vector $\bm  s$.
 We denote it by ``mul(s).''
 The idea of multi-task losses is not new and has been used in previous work for sequence-to-sequence learning \cite{luong2015multi}, sentence representation learning \cite{jernite2017discourse} and sentiment analysis \cite{balikas2017multitask}, among others.
 
 
-\subsubsection{Adversarial Loss for Style.}
-\label{ssec:adversarial-style-objective}
-
+\textbf{Adversarial Loss for Style.}
 The above multi-task loss only ensures that the style space contains style information.
 However, the content space might also contain style information, which is undesirable for disentanglement.
 
 We thus apply an adversarial loss to discourage the content space containing style information.
-The idea is to first introduce a classifier, called an \textit{adversary}, that deliberately discriminates the true style label using the content vector $\bm c$.
-Then the encoder is trained to learn a content vector space, from which its adversary cannot predict style information.
+The idea is to first train a classifier, called an \textit{adversary}, that deliberately discriminates the style label using the content vector $\bm c$.
+Then, the encoder is trained to learn a content vector space, from which its adversary cannot predict the style.
 
-Concretely, the adversarial discriminator and its training objective have a similar form as Equations~\ref{eqn:class-pred} and~\ref{eqn:style-multi-task-loss}, but with different input and parameters, given by
+Concretely, the adversarial discriminator and its training objective have a similar form as Eqn.~\ref{eqn:class-pred}--~\ref{eqn:style-multi-task-loss}, but with different input and parameters, given by
 \begin{align}
 	\label{eqn:adv-disc-loss}
 	\bm y_s                          & = \operatorname{softmax}(\weight{dis(s)} \bm c + \bias{dis(s)}) \\
@@ -246,59 +244,55 @@ where $\nnweight{dis(s)}=[\weight{dis(s)}; \bias{dis(s)}]$ are the parameters of
 
 It should be emphasized that, for the adversary, the gradients are not propagated back to the autoencoder, i.e., the variables in $\bm c$ are treated as shallow features. Therefore, we view $\loss{dis(s)}$ as a function of $\nnweight{dis(s)}$ only, whereas $\loss{mul(s)}$ is a function of both $\nnweight{E}$ and $\nnweight{mul(s)}$.
 
-Having trained an adversary, we would like the autoencoder to be tuned in such an \textit{ad hoc} fashion, that $\bm c$ is not discriminative for style.
+Having trained an adversary, we would like the autoencoder to be tuned in such an \textit{ad hoc} fashion that $\bm c$ is not discriminative for style.
 In existing literature, there could be different approaches, for example, maximizing the adversary's loss~\cite{shen2017style,zhao2018adversarially} or penalizing the entropy of the adversary's prediction~\cite{fu2018style}.
-In our work, we adopt the latter, as it can be easily extended to multi-category classification, used for the content-oriented losses of our approach. Formally, the adversarial objective for the style is to maximize
+In our work, we adopt the latter, as it can be easily extended to multi-category classification, used in Subsection~\ref{ss:content}. Formally, the adversarial objective for the style is to maximize
 \begin{equation} \label{eqn:advs}
 	\loss{adv(s)}(\nnweight{E})=\mathcal{H}(\bm y_s|\bm c; \nnweight{dis(s)})
 \end{equation}
-where $\mathcal{H}(\bm p)=-\sum_{i\in\text{labels}}p_i\log p_i$ and $\bm y_s$ is the predicted distribution over the style labels. Here, $\loss{adv(s)}$ is maximized with respect to the encoder, and attains maximum value when $\bm y_s$ is a uniform distribution. It is viewed as a function of $\nnweight{E}$, and we fix $\nnweight{dis(s)}$.
+where $\mathcal{H}(\bm p)=-\sum_{i\in\text{labels}}p_i\log p_i$ and $\bm y_s$ is the predicted distribution over the style labels. Here, $\loss{adv(s)}$ is maximized with respect to the encoder $\nnweight{E}$ and we fix $\nnweight{dis(s)}$. The objective attains maximum value when $\bm y_s$ is uniform. 
 
-While adversarial loss has been explored in previous style-transfer papers~\cite{shen2017style,fu2018style}, it has not been combined with the multi-task loss. As we shall show in our experiments, combining these two losses is promisingly effective, achieving better style transfer performance than a variety of previous state-of-the-art methods.
+While adversarial loss has been explored in previous style-transfer papers~\cite{shen2017style,fu2018style}, it has not been combined with the multi-task loss. As shown in our experiments, combining these two losses is promisingly effective, achieving better style transfer performance than a variety of previous state-of-the-art methods.
 
-\subsection{Content-Oriented Losses}
+\subsection{Content-Oriented Losses}\label{ss:content}
 
-The above style-oriented losses only regularize style information, but they do not impose any constraint on how the content information should be encoded. This also happens in most previous work~\cite{hu2017toward,shen2017style,fu2018style}.
-Although the style space is usually much smaller than the content space, it is unrealistic to expect that the content would not flow into the style space because of its limited capacity. Therefore, we need to design content-oriented auxiliary losses to regularize the content information.
+The above style-oriented losses only regularize style information, but they do not impose any constraint on how the content information should be encoded. In most previous work, the treatment of content is also missing~\cite{hu2017toward,shen2017style,fu2018style}.
+
+In practice, the style space is usually smaller than content space. But it is unrealistic to expect that the content would not flow into the style space simply because of its limited capacity. Therefore, we need to design content-oriented losses to regularize the content information.
 
 Inspired by the above combination of multi-task and adversarial losses, we apply the same idea to the content space. However, it is usually hard to define what ``content'' actually refers to.
 
 To this end, we propose to approximate the content information by bag-of-words (BoW) features.
-The BoW features of an input sentence is a vector, each element indicating the probability of a word's occurrence in the sentence.
+The BoW feature of a sentence is a vector, each element indicating the probability of a word's occurrence.
 For a sentence $\rmx$ with $N$ words, the word $w_*$'s BoW probability is given by
 $t_c(w_*)=\frac{\sum_{i=1}^{N}{\mathbb{I}\{w_i = w_*\}}}{N}$,
 where $t_c(\cdot)$ denotes the target distribution of content, and $\mathbb{I\{\cdot\}}$ is an indicator function.
 Here, we only consider content words, excluding stopwords and style-specific words, since we focus on ``content'' information. In particular, we exclude sentiment words from a curated lexicon \cite{hu2004mining} for sentiment style transfer.
-The effect of using different vocabularies for BoW is analyzed in Supplemental Material A.
+{\color{red} The effect of using different vocabularies for BoW is analyzed in Supplemental Material A.}
 
-\subsubsection{Multi-Task Loss for Content.} \label{ssec:multitask-content-objective}
-
-Similar to the style-oriented loss, the multi-task loss for content, denoted as ``mul(c)'', ensures that the content space $\bm c$ contains content information, i.e., BoW features.
-
+\textbf{Multi-Task Loss for Content.} Similar to the style-oriented loss, the multi-task loss for content, denoted as ``mul(c),'' ensures that the content space $\bm c$ contains content information, i.e., BoW features.
 We introduce a softmax classifier over the BoW vocabulary
 \begin{equation} \label{eqn:bow-pred}
 	\bm y_c = \operatorname{softmax}({\weight{mul(c)}} \bm c + \bias{mul(c)})
 \end{equation}
-where $\nnweight{mul(c)}=[\weight{mul(c)}; \bias{mul(c)}]$ are the classifier's parameters, and $\bm y_c$ is the predicted BoW distribution.
+where $\nnweight{mul(c)}\!\!=\!\![\weight{mul(c)}; \bias{mul(c)}]$ are the classifier's parameters; $\bm y_c$ is the predicted BoW distribution.
 
-The training objective is a cross-entropy loss against the ground truth distribution $t_c(\cdot)$, given by
+The training objective is a cross-entropy loss against the groundtruth distribution $t_c(\cdot)$, given by
 \begin{equation}\label{eqn:content-multi-task-loss}
-	\loss{mul(c)}(\nnweight{E};\nnweight{mul(c)}) = - \sum\nolimits_{w\in\text{vocab}} t_c(w)\log y_c(w)
+	\loss{mul(c)}(\nnweight{E};\nnweight{mul(c)}) = -\!\! \sum\nolimits_{w\in\text{vocab}}\!\! t_c(w)\log y_c(w)
 \end{equation}
 where the optimization is performed with both encoder parameters $\nnweight{E}$ and the multi-task classifier $\nnweight{mul(c)}$.
-Notice that although the target distribution is not one-hot as for BoW prediction, the cross-entropy loss (Equation~\ref{eqn:content-multi-task-loss}) has the same form.
+Notice that although the target distribution is not one-hot  for BoW, the cross-entropy loss \ref{eqn:content-multi-task-loss} has the same form as Eqn.~\ref{eqn:style-multi-task-loss}.
 
-It is also interesting that, at first glance, the multi-task loss for content appears to be redundant, given the autoencoding loss, when in fact, it is not. The multi-task loss only considers content words, which do not include stopwords and sentiment words, and is only applied to the content space $\bm c$. This ensures that the content information is captured in the content space. The autoencoding loss only requires that the model reconstructs the sentence based on the content and style space, and does not ensure their separation.
+It is also interesting that, at first glance, the multi-task loss for content appears to be redundant to the autoencoding loss, when in fact, it is not.  The autoencoding loss only requires that the model could reconstruct the sentence based on the combined content and style spaces, but does not ensure their separation. The multi-task loss focuses on content words and is applied to the content space only, ensuring that the content information is indeed captured in the content space.
 
-\subsubsection{Adversarial Loss for Content.} \label{ssec:adversarial-content-objective}
+\textbf{Adversarial Loss for Content.} To ensure that the style space does not contain content information, we design our final auxiliary loss, the adversarial loss for content, denoted as ``adv(c).''
 
-To ensure that the style space does not contain content information, we design our final auxiliary loss, the adversarial loss for content, denoted as ``adv(c).''
-
-We build an adversary, a softmax classifier on the style space to predict BoW features, approximating content information, given by
+We build a content adversary, a softmax classifier on the style space predicting BoW features
 \begin{align}
 	\label{eqn:adv-bow-disc-loss}
-	\bm y_c                          & = \operatorname{softmax}({\weight{dis(c)}}^\top \bm s + \bias{dis(c)}) \\
-	\loss{dis(c)}(\nnweight{dis(c)}) & = - \sum\nolimits_{w\in\text{vocab}} t_c(w)\log y_c(w)
+	\bm y_c   = \operatorname{softmax}&({\weight{dis(c)}}^\top \bm s + \bias{dis(c)}) \\
+	\loss{dis(c)}(\nnweight{dis(c)}) =& - \sum\limits_{w\in\text{vocab}} t_c(w)\log y_c(w)
 \end{align}
 where $\nnweight{dis(c)}=[\weight{dis(c)}; \bias{dis(c)}]$ are the classifier's parameters for BoW prediction.
 
@@ -312,15 +306,15 @@ Again, $\loss{dis(c)}$ is trained with respect to the discriminator's parameters
 
 \subsection{Training Process}
 
-The overall loss $\loss{ovr}$ for the autoencoder comprises several terms: the reconstruction objective, the multi-task objectives for style and content, and the adversarial objectives for style and content:
+The overall loss $\loss{ovr}$ for our model comprises several terms: the reconstruction objective, the multi-task and objective for style and content, respectively, given by
 \begin{align}
-	\loss{ovr} = & \loss{AE}(\nnweight{E}, \nnweight{D})                                                                              \\
-	             & + \hyp{mul(s)} \loss{mul(s)} (\nnweight{E},\nnweight{mul(s)}) - \hyp{adv(s)} \loss{adv(s)}(\nnweight{E}) \nonumber \\
-	             & + \hyp{mul(c)} \loss{mul(c)} (\nnweight{E},\nnweight{mul(c)}) - \hyp{adv(c)} \loss{adv(c)}(\nnweight{E}) \nonumber
+	\loss{ovr} &=  \loss{AE}(\nnweight{E}, \nnweight{D})                                                                              \\
+	              +& \hyp{mul(s)} \loss{mul(s)} (\nnweight{E},\nnweight{mul(s)}) - \hyp{adv(s)} \loss{adv(s)}(\nnweight{E}) \nonumber \\
+	             +& \hyp{mul(c)} \loss{mul(c)} (\nnweight{E},\nnweight{mul(c)}) - \hyp{adv(c)} \loss{adv(c)}(\nnweight{E}) \nonumber
 \end{align}
 where $\lambda$'s are the hyperparameters that balance the autoencoding loss and these auxiliary losses.
 
-To put it all together, the model training involves an alternation of optimizing discriminator losses $\loss{dis(s)}$ and $\loss{dis(c)}$, and the model's own loss $\loss{ovr}$, shown in Algorithm~\ref{alg:training-process}.
+To put it all together, the model training involves an alternation of optimizing adversaries' losses $\loss{dis(s)}$ and $\loss{dis(c)}$, and the model's own loss $\loss{ovr}$, shown in Algorithm~\ref{alg:training-process}.
 
 
 \begin{algorithm}[!t]
@@ -336,10 +330,9 @@ To put it all together, the model training involves an alternation of optimizing
 
 \subsection{Generating Style-Transferred Sentences} \label{ssec:sentence-generation}
 
-A direct application of our disentangled latent space is style-transfer for natural language generation.
-For example, we can generate a sentence with generally the same meaning (content) but a different style (e.g., sentiment).
+A direct application of our disentangled latent space is style-transfer sentence generation, i.e., we can synthesize a sentence with generally the same meaning but a different style in the inference stage.
 
-Let $\rmx^*$ be an input sentence with $\bm s^*$ and $\bm c^*$ being the encoded, disentangled style and content vectors, respectively.
+Let $\rmx^*$ be an input sentence with $\bm s^*$ and $\bm c^*$ being the encoded style and content vectors, respectively.
 If we would like to transfer its content to a different style, we compute an empirical estimate of the target style's vector $\hat{\bm s}$ using
 \begin{equation*}
 	\hat{\bm s}=\frac{\sum_{i\in\text{target style}}\bm s_i}{\text{\# target style samples}}
@@ -354,48 +347,47 @@ The inferred target style $\hat{\bm s}$ is concatenated with the encoded content
 We conducted experiments on two datasets, Yelp and Amazon reviews.
 Both of these datasets comprise sentences accompanied by binary sentiment labels (positive, negative). They are used to train latent space disentanglement as well as to evaluate sentiment transfer.
 
-\subsubsection{Yelp Service Reviews.}
-We used a Yelp review dataset, following previous work \cite{shen2017style,zhao2018adversarially}.
-\footnote{The Yelp dataset is available at \url{https://github.com/shentianxiao/language-style-transfer}}
-It contains 444101, 63483 and 126670 labeled reviews for train, validation, and test, respectively.
-The maximum review length is 15 words, and the vocabulary size is approximately 9200.
+\textbf{Yelp Service Reviews.}
+We used the Yelp review dataset, following previous work \cite{shen2017style,zhao2018adversarially}.\footnote{The Yelp dataset is available at \url{https://github.com/shentianxiao/language-style-transfer}}
+It contains 444,101, 63,483, and 126,670 labeled reviews for train, validation, and test, respectively.
+The maximum length is 15 words; the vocabulary size is $\sim$9200.
 
-\subsubsection{Amazon Product Reviews.}
-We further evaluate our model with an Amazon review dataset, following another previous paper~\cite{fu2018style}.
-\footnote{The Amazon dataset is available at \url{https://github.com/fuzhenxin/text_style_transfer}}
-It contains 559142, 2000 and 2000 labeled reviews for train, validation, and test, respectively.
-The maximum review length is 20 words, and the vocabulary size is approximately 58000.
+\textbf{Amazon Product Reviews.}
+We further evaluate our model with an Amazon review dataset, following some other previous papers~\cite{fu2018style}.\footnote{The Amazon dataset is available at \url{https://github.com/fuzhenxin/text_style_transfer}}
+It contains 559,142, 2,000, and 2,000 labeled reviews for train, validation, and test, respectively.
+The maximum length is 20 words; the vocabulary size is $\sim$58k.
 
 
-\subsection{Experiment Settings}
-We used the Adam optimizer \cite{kingma2014adam} for the autoencoder and the RMSProp optimizer \cite{tieleman2012lecture} for the discriminators, following adversarial training stability tricks \cite{arjovsky2017wasserstein}.
+\subsection{Experimental Settings}
+
+Our RNN has a hidden state of 256-d, linearly transformed to the style space of 8-d, and the content space of 128-d. These dimensions were chosen empirically, and we found them robust to model performance.
+For the deoder, we append the latent vector $\bm h=[\bm s, \bm c]$ to the hidden state at each step.
+
+We used the Adam optimizer \cite{kingma2014adam} for the autoencoder and the RMSProp optimizer \cite{tieleman2012lecture} for the discriminators, following stability tricks in adversarial training  \cite{arjovsky2017wasserstein}.
 Each optimizer has an initial learning rate of $10^{-3}$.
 Our model is trained for 20 epochs, by which time it has mostly converged.
 The word embedding layer was initialized by word2vec \cite{mikolov2013distributed} trained on respective training sets.
-Both the autoencoder and the discriminators are trained once per mini-batch with $\hyp{mul(s)} = 10$, $\hyp{mul(c)} = 3$, $\hyp{adv(s)} = 1$, and $\hyp{adv(c)} = 0.03$.
-These hyperparameters were tuned by performing a log-scale grid search within two orders of magnitude around the default value $1$, and choosing those that yielded the best validation results.
-The recurrent unit size is $256$, the style vector size is $8$, and the content vector size is $128$.
-We append the latent vector $\bm h$ to the hidden state at every time step of the decoder.
+Both the autoencoder and the discriminators are trained once per mini-batch with $\hyp{mul(s)}\!\!=\!\!10$, $\hyp{mul(c)}\!\!=\!\!3$, $\hyp{adv(s)}\!\!=\!\!1$, and $\hyp{adv(c)} = 0.03$.
+These hyperparameters were tuned by performing a log-scale grid search within two orders of magnitude around the default value~$1$; we chose those yielding the best validation results. 
 
-For the VAE model, we enforce the KL-divergence penalty on both the style and content posterior distributions, using $\hyp{kl(s)}$ and $\hyp{kl(c)}$, respectively.
-We set $\hyp{kl(s)} = 0.03$ and $\hyp{kl(c)} = 0.03$ and use the $\operatorname{sigmoid}$ KL-weight annealing schedule following \citet{bahuleyan2018probabilistic}.
-They were tuned in the same manner as the other hyperparameters of the model.
+For the VAE model, the KL penalty is weighted by $\hyp{kl(s)}$ and $\hyp{kl(c)}$ for style and content, respectively.
+We set both to $0.03$, tuned by the same method of log-scale grid search. During training, we also used the $\operatorname{sigmoid}$ KL annealing schedule, following \citet{bahuleyan2018probabilistic}.
 
 
-\subsection{Experiment I: Disentangling Latent Space}
+\subsection{Exp.~ I: Disentangling Latent Space}
 
 First, we analyze how the style (sentiment) and content of the latent space are disentangled.
-We train classifiers on the different latent spaces, and report their inference-time classification accuracies in Table~\ref{tab:classification-yelp}.
+We train classifiers on the different latent spaces, and report their classification accuracy in Table~\ref{tab:classification-yelp}.
 
-We see that the 128-dimensional content vector $\bm c$ is not particularly discriminative for style.
-It achieves accuracies slightly better than majority guess.
-However, the 8-dimensional style vector $\bm s$, despite its low dimensionality, achieves substantially higher style classification accuracy.
+We see the 128-d content vector $\bm c$ is not particularly discriminative for style.
+Its accuracy is slightly better than majority guess.
+However, the 8-d style vector $\bm s$, despite its low dimensionality, achieves substantially higher style classification accuracy.
 When combining content and style vectors, we observe no further improvement.
 These results verify the effectiveness of our disentangling approach, as the style space contains style information, whereas the content space does not.
 
-We show t-SNE plots of both the deterministic autoencoder (DAE) and the variational autoencoder (VAE) models in Figure~\ref{fig:tsne-plots}.
+We show t-SNE plots~\cite{xxx} of both the deterministic autoencoder (DAE) and the variational autoencoder (VAE) models in Figure~\ref{fig:tsne-plots}.
 As seen, sentences with different styles are noticeably separated in a clean manner in the style space (LHS), but are indistinguishable in the content space (RHS).
-It is also evident that the latent space learned by the variational autoencoder is considerably smoother and continuous compared with the one learned by the deterministic autoencoder.
+It is also evident that the latent space learned by the variational autoencoder is considerably smoother and continuous compared with the one learned by DAE.
 
 We show t-SNE plots for ablation tests with different combinations of auxiliary losses in Supplemental Material B.
 
@@ -429,62 +421,57 @@ We show t-SNE plots for ablation tests with different combinations of auxiliary 
 		\begin{tabular}{|l||c|c|c|c|c||c|c|c|c|c| }
 			\hline
 			\tabc{2}{Model}                            & \multicolumn{5}{c||}{\textbf{Yelp Dataset}} & \multicolumn{5}{c|}{\textbf{Amazon Dataset}}                                                                                                                                                                                \\ \cline{2-11}
-			                                           & \textbf{STA}                                & \textbf{CS}                                  & \textbf{WO}       & \textbf{PPL}     & \textbf{GM}       & \textbf{STA}               & \textbf{CS}                & \textbf{WO}       & \textbf{PPL}    & \textbf{GM}       \\
+			                                           & \textbf{STA}$^\uparrow$                                & \textbf{CS}$^\uparrow$                                  & \textbf{WO}$^\uparrow$       & \textbf{PPL}$^\downarrow$     & \textbf{GM}$^\uparrow$       & \textbf{STA}$^\uparrow$               & \textbf{CS}$^\uparrow$                & \textbf{WO}$^\uparrow$       & \textbf{PPL}$^\downarrow$    & \textbf{GM}$^\uparrow$      \\
 			\hline\hline
-			Style-Embedding \cite{fu2018style}         & \color{gray}0.18                            & \color{gray} 0.96                            & \color{gray} 0.67 & \color{gray} 124 & \color{gray} 0.10 & \color{gray} \ 0.40$^\dag$ & \color{gray} \ 0.93$^\dag$ & \color{gray} 0.36 & \color{gray} 32 & \color{gray} 0.17 \\ \hline
+			Style-Embedding \cite{fu2018style}         & \color{gray}0.18                            & \color{gray} 0.96                            & \color{gray} 0.67 & \color{gray} 124 & \color{gray} 0.10 & \color{gray} \ 0.40$^\dag$ & \color{gray} \ 0.93$^\dag$ & \color{gray} 0.36 & \color{gray} 32 & \color{gray} \textbf{0.17} \\ \hline
 			Cross-Alignment \cite{shen2017style}       & \ 0.78$^\dag$                               & 0.89                                         & 0.21              & 93               & 0.12              & 0.61                       & 0.89                       & 0.02              & 202             & 0.04              \\ \hline
 			Multi-Decoder \cite{zhao2018adversarially} & \ 0.82$^\dag$                               & 0.88                                         & 0.27              & 85               & 0.14              & 0.55                       & \textbf{0.93}              & 0.17              & 75              & 0.11              \\ \hline
-			Del-Ret-Gen \cite{li2018delete} $^\ddag$   & 0.86                                        & \textbf{0.94}                                & 0.52              & 70               & \textbf{0.19}     & \color{gray}0.43           & \color{gray} 0.98          & \color{gray} 0.80 & \color{gray} 65 & \color{gray} 0.17 \\ \hline
+			Del-Ret-Gen \cite{li2018delete} $^\ddag$   & 0.86                                        & \textbf{0.94}                                & 0.52              & 70               & \textbf{0.19}     & \color{gray}0.43           & \color{gray} 0.98          & \color{gray} 0.80 & \color{gray} 65 & \color{gray} \textbf{0.17} \\ \hline
 			BackTranslate \cite{prabhumoye2018style}   & 0.85                                        & 0.83                                         & 0.08              & 206              & 0.07              & \textbf{0.83}              & 0.82                       & 0.02              & 115             & 0.05              \\ \hline
-			Cycle-RL \cite{xu2018unpaired} $^\ddag$    & 0.80                                        & 0.92                                         & 0.43              & 470              & 0.09              & 0.72                       & 0.91                       & \textbf{0.22}     & 332             & 0.08              \\ \hline\hline
-			Ours (DAE)                                 & 0.88                                        & 0.92                                         & \textbf{0.55}     & 137              & 0.15              & 0.72                       & 0.92                       & 0.35              & 73              & \textbf{0.15}     \\ \hline
+			Cycle-RL \cite{xu2018unpaired} $^\ddag$    & 0.80                                        & 0.92                                         & 0.43              & 470              & 0.09              & 0.72                       & 0.91                       & {0.22}     & 332             & 0.08              \\ \hline\hline
+			Ours (DAE)                                 & 0.88                                        & 0.92                                         & \textbf{0.55}     & 137              & 0.15              & 0.72                       & 0.92                       & \textbf{0.35}              & 73              & \textbf{0.15}     \\ \hline
 			Ours (VAE)                                 & \textbf{0.93}                               & 0.90                                         & 0.47              & \textbf{69}      & \textbf{0.19}     & 0.82                       & 0.90                       & 0.20              & \textbf{63}     & 0.14              \\ \hline
 		\end{tabular}}
 	\vspace{-.2cm}
-	\caption{Performance of non-parallel text style transfer.  $^\dag$Quoted from previous papers (the same data split). $^\ddag$Involving custom data splits, providing a rough (but unbiased) comparison. Others are based on our replication, and we use published code whenever possible. We achieve 0.809 and 0.835 transfer accuracy on the Yelp dataset, close to the results in \citet{shen2017style} and \citet{zhao2018adversarially}, respectively, showing that our replication is fair.}\vspace{-.2cm}
+	\caption{Performance of text style transfer. \textbf{STA:} Style transfer accuracy. \textbf{CS:} Cosine similarity. \textbf{WO:} Word overlap. \textbf{PPL:} Perplexity. \textbf{GM:} Geometric mean. The larger$^\uparrow$ (or lower$^\downarrow$), the better.  $^\dag$Quoted from previous papers (with the same data split). $^\ddag$Involving custom data splits, providing a rough (but unbiased) comparison. Others are based on our replication, and we use published code whenever possible. We achieve 0.809 and 0.835 transfer accuracy on the Yelp dataset, close to the results in \citet{shen2017style} and \citet{zhao2018adversarially}, respectively, showing that our replication is fair. Gray numbers show that a method fails transfer style most of the time.}\vspace{-.2cm}
 	\label{tab:comparison-previous}
 \end{table*}
 
 
-\subsection{Experiment II: Non-Parallel Text Style Transfer}
-We also conducted sentiment transfer experiments with our disentangled latent space.
+\subsection{Exp.~II: Non-Parallel Text Style Transfer}
+In this experiment, we apply the disentangled latent space to sentiment-transfer text generation.
 
-\subsubsection{Metrics.} We evaluate competing models based on (1) style transfer strength, (2) content preservation and (3) quality of generated language. The evaluation of generated sentences is a difficult task in contemporary literature, so we adopt a few automatic metrics and use human judgment as well.
+\textbf{Metrics}: We evaluate competing models based on (1) style transfer strength, (2) content preservation, and (3) quality of generated language. The evaluation of generated sentences is difficult itself in contemporary literature, so we adopt a few automatic metrics and use human judgment as well.
 
-$\bullet$ \textit{Style-Transfer Accuracy (STA):}
+\textit{Style-Transfer Accuracy} (\textbf{STA}):
 We follow most previous work~\cite{hu2017toward,shen2017style,fu2018style} and train a separate convolutional neural network (CNN) to predict the sentiment of a sentence~\cite{kim2014convolutional}, which is then used to approximate the style transfer accuracy.
-In other words, we report the CNN classifier's accuracy on the style-transferred sentences, considering the target style to be the ground truth.
+In other words, we report the CNN classifier's accuracy on the style-transferred sentences, considering the target style to be the groundtruth.
 While the style classifier itself may not be perfect, it achieves a reasonable sentiment accuracy on the validation sets ($97\%$ for Yelp; $82\%$ for Amazon).
-Thus, it provides a quantitative way of evaluating the strength of style-transfer.
+Thus, it provides a quantitative way of evaluating the strength of style transfer.
 
-$\bullet$ \textit{Cosine Similarity (CS):}
-We followed \citet{fu2018style} and computed a sentence embedding by concatenating the $\operatorname{min}$, $\operatorname{max}$, and $\operatorname{mean}$ of its word embeddings (sentiment words removed).
-Then, we computed the cosine similarity between the source and generated sentence embeddings, which is intended to be an indicator of content preservation.
+\textit{Cosine Similarity} (\textbf{CS}):
+We followed \citet{fu2018style} and computed the cosine measure between source and generated sentence embeddings, which are the concatenation of $\operatorname{min}$, $\operatorname{max}$, and $\operatorname{mean}$ of word embeddings (sentiment words removed). This provides a rough estimation of content preservation.
+%Then, we computed the cosine similarity between the source and generated sentences' embeddings, serving as a rough estimation of content preservation.
 
-$\bullet$ \textit{Word Overlap (WO)}
-We find that the cosine similarity measure, although correlated to human judgment, is not a sensitive measure, and we propose a simple yet effective measure that counts the unigram word overlap rate of the original sentence $\mathrm x$ and the style-transferred sentence $\mathrm y$, computed by $\frac{count(w_{\mathrm x} \cap w_{\mathrm y})}{count(w_{\mathrm x} \cup w_{\mathrm y})}$.
+ \textit{Word Overlap} (\textbf{WO}):
+We find that the cosine similarity measure, although more or less correlated to human judgment, is not a sensitive measure. We propose a simple yet effective measure that counts the unigram word overlap rate of the original sentence $\mathrm x$ and the style-transferred sentence $\mathrm y$, computed by $\frac{count(w_{\mathrm x} \cap w_{\mathrm y})}{count(w_{\mathrm x} \cup w_{\mathrm y})}$.
+{\color{red} Here, we exclude both stopwords and sentiment words.}
 
-% $\bullet$ \textit{Language Fluency.}
-% We use a trigram Kneser-Ney (KL) smoothed language model \cite{kneser1995improved} as a quantitative and automated metric to evaluate the fluency of a sentence.
-% It estimates the empirical distribution of trigrams in a corpus, and computes the log-likelihood of a test sentence.
-% We train the language model on the respective dataset, and report the Kneser-Ney language model's log-likelihood. A larger (closer to zero) number indicates a more fluent sentence.
 
-$\bullet$ \textit{Perplexity (PPL):}
-We use a trigram Kneser-Ney (KL) smoothed language model \cite{kneser1995improved} as a quantitative and automated metric to evaluate the fluency of a sentence.
+\textit{Perplexity} (\textbf{PPL}): We use the trigram Kneser--Ney (KN,~\citeyear{kneser1995improved}) language model as a quantitative and automated metric to evaluate the fluency of a sentence.
 It estimates the empirical distribution of trigrams in a corpus, and computes the perplexity of a test sentence.
-We train the language model on the respective dataset, and report the Kneser-Ney language model's perplexity. A smaller number indicates more fluent sentences.
+We trained the language model on the respective datasets, and report PPL on the generated sentences. A smaller PPL indicates more fluent sentences.
 
-$\bullet$ \textit{Geometric Mean (GM):}
-We use the geometric mean of STA, WO and 1/PPL to give us an aggregate score for each model.
+\textit{Geometric Mean} (\textbf{GM}):
+We use the geometric mean of STA, WO, and 1/PPL---reflecting transfer strength, content preservation, and fluency, respectively---to obtain an aggregated score considering all aspects.  Notice that a smaller PPL is desired; thus, we use 1/PPL when computing GM. Also, cosine similarity (CS) is not included, because it is insensitive yet repetitive with word overlap (WO).  Here, we adopt the geometric mean so that the scale of each metric does not influence the judgment.  
 
 
-$\bullet$ \textit{Manual Evaluation:}
+\textit{Manual Evaluation:}
 Despite the above automatic metrics, we also conduct human evaluations to further confirm the performance of our model.
 This was done on the Yelp dataset only, due to the amount of manual effort involved.
-We asked 6 human evaluators to rate each sentence on a 1--5 Likert scale~\cite{stent2005evaluating} in terms of transfer strength (TS), content preservation (CP), and language quality (LQ).
-This evaluation was conducted in a strictly blind fashion: samples obtained from all evaluated models are randomly shuffled, so that the evaluator would be unaware of which model generated a particular sentence.
-The inter-rater agreement---as measured by Krippendorff's alpha \cite{krippendorf2004content} for our Likert scale ratings---is 0.74, 0.68, and 0.72 for transfer strength, content preservation, and language quality, respectively.
-According to \citet{krippendorf2004content}, this is an acceptable inter-rater agreement.
+We asked 6 human annotators to rate each sentence on a 1--5 Likert scale~\cite{stent2005evaluating} in terms of transfer strength (\textbf{TS}), content preservation (\textbf{CP}), and language quality (\textbf{LQ}).
+This evaluation was conducted in a strictly blind fashion: samples obtained from all evaluated models were randomly shuffled, so that the annotator was unaware of which model generated a particular sentence.
+The inter-rater agreement---as measured by Krippendorff's alpha \cite{krippendorf2004content} for our Likert scale ratings---is 0.74, 0.68, and 0.72 for threse three aspects, respectively. According to \citet{krippendorf2004content}, this is an acceptable inter-rater agreement. We also computed the geometric mean (\textbf{GM}) to obtain an aggregated score.
 
 \begin{table}[!t]
 	\centering
@@ -504,39 +491,55 @@ According to \citet{krippendorf2004content}, this is an acceptable inter-rater a
 	\label{tab:manual-evaluation}
 \end{table}
 
-\subsubsection{Results and Analysis.}
-
+\begin{table*}[ht]
+ 	\centering\vspace{-.2cm}\small
+ 	\begin{tabular}{| l || c | c | c | c | c |}
+ 		\hline
+ 		\tabc{2}{Objectives}                                                            & \multirow{2}{*}{\textbf{STA}} & \multirow{2}{*}{\textbf{CS}} & \multirow{2}{*}{\textbf{WO}} & \textbf{GM}       & \multirow{2}{*}{\textbf{PPL}} \\
+ 		                                                                                &                               &                              &                              & \textbf{(STA,WO)} &                               \\
+ 		\hline\hline
+ 		$\loss{AE}$                                                                     & 0.11                          & \textbf{0.94}                & \textbf{0.47}                         & 0.22              & 40                            \\ \hline
+ 		$\loss{AE}$, $\loss{mul(s)}$                                                    & 0.77                          & 0.91                         & 0.33                         & 0.50              & 41                            \\ \hline
+ 		% $\loss{AE}$, $\loss{mul(c)}$                                                    & 0.16            & 0.93              & 0.63           & -           & -          \\ \hline
+ 		$\loss{AE}$, $\loss{adv(s)}$                                                    & 0.78                          & 0.89                         & 0.23                         & 0.42              & 35                            \\ \hline
+ 		 %$\loss{AE}$, $\loss{adv(c)}$                                                    & 0.10            & 0.94              & 0.47           & -           & -          \\ \hline
+ 		 %$\loss{AE}$, $\loss{mul(s)}$, $\loss{mul(c)}$                                   & 0.82            & 0.93              & 0.56           & -           & -          \\ \hline
+ 		$\loss{AE}$, $\loss{mul(s)}$, $\loss{adv(s)}$                                   & 0.91                          & 0.87                         & 0.17                         & 0.40              & \textbf{23}                   \\ \hline
+ 		 %$\loss{AE}$, $\loss{mul(s)}$, $\loss{adv(c)}$                                   & 0.78            & 0.91              & 0.32           & -           & -          \\ \hline
+ 		 %$\loss{AE}$, $\loss{mul(c)}$, $\loss{adv(s)}$                                   & 0.82            & 0.89              & 0.51           & -           & -          \\ \hline
+ 		 %$\loss{AE}$, $\loss{mul(c)}$, $\loss{adv(c)}$                                   & 0.15            & 0.93              & 0.62           & -           & -          \\ \hline
+ 		 %$\loss{AE}$, $\loss{adv(s)}$, $\loss{adv(c)}$                                   & 0.78            & 0.88              & 0.21           & -           & -          \\ \hline
+ 		 %$\loss{AE}$, $\loss{mul(s)}$, $\loss{mul(c)}$, $\loss{adv(s)}$                  & 0.92            & 0.90              & 0.48           & -           & -          \\ \hline
+ 		 %$\loss{AE}$, $\loss{mul(s)}$, $\loss{mul(c)}$, $\loss{adv(c)}$                  & 0.84            & 0.92              & 0.56           & -           & -          \\ \hline
+ 		 %$\loss{AE}$, $\loss{mul(s)}$, $\loss{adv(s)}$, $\loss{adv(c)}$                  & 0.93            & 0.86              & 0.16           & -           & -          \\ \hline
+ 		 %$\loss{AE}$, $\loss{mul(c)}$, $\loss{adv(s)}$, $\loss{adv(c)}$                  & 0.81            & 0.90              & 0.50           & -           & -          \\ \hline
+ 		$\loss{AE}$, $\loss{mul(s)}$, $\loss{adv(s)}$, $\loss{mul(c)}$, $\loss{adv(c)}$ & \textbf{0.93}                 & 0.90                         & \textbf{0.47}                & \textbf{0.66}     & 32                            \\ \hline
+ 	\end{tabular}\vspace{-.2cm}
+ 	\caption{Ablation tests on the Yelp dataset. In all variants, we follow the same protocol of style transfer by substituting an empirical estimate of the target style vector.}
+ 	\label{tab:ablation-results}
+ \end{table*}
+\textbf{Overall performance.}
 We compare our approach with previous state-of-the-art work in Table \ref{tab:comparison-previous}.
-For baseline methods, we quoted results from existing papers whenever possible, and replicated the experiments to report other metrics with publicly available code \cite{shen2017style,fu2018style,zhao2018adversarially}.\footnote{\citet{fu2018style} propose another model using multiple decoders; the method is further developed in \citet{zhao2018adversarially}, and we adopt the latter for comparison.}
-% As discussed in Table~\ref{tab:comparison-previous}, our replication involves reasonable efforts and is fair for comparison.
+For baseline methods, we quote results from existing papers whenever possible. In some studies, the authors release their style-transferred sentences, and we tested them with our metrics. A caveat is that this may involve a different data spit, providing a rough (but unbiased) comparison. For others, we re-implemented the model using publicly available code. 
 
-% \begin{table*}[ht]
-% 	\centering\vspace{-.2cm}
-% 	\begin{tabular}{| l || c | c | c | c | c |}
-% 		\hline
-% 		\tabc{2}{Objectives}                                                            & \multirow{2}{*}{\textbf{STA}} & \multirow{2}{*}{\textbf{CS}} & \multirow{2}{*}{\textbf{WO}} & \textbf{GM}       & \multirow{2}{*}{\textbf{PPL}} \\
-% 		                                                                                &                               &                              &                              & \textbf{(STA,WO)} &                               \\
-% 		\hline\hline
-% 		$\loss{AE}$                                                                     & 0.11                          & \textbf{0.94}                & 0.47                         & 0.22              & 40                            \\ \hline
-% 		$\loss{AE}$, $\loss{mul(s)}$                                                    & 0.77                          & 0.91                         & 0.33                         & 0.50              & 41                            \\ \hline
-% 		% $\loss{AE}$, $\loss{mul(c)}$                                                    & 0.16            & 0.93              & 0.63           & -           & -          \\ \hline
-% 		$\loss{AE}$, $\loss{adv(s)}$                                                    & 0.78                          & 0.89                         & 0.23                         & 0.42              & 35                            \\ \hline
-% 		% $\loss{AE}$, $\loss{adv(c)}$                                                    & 0.10            & 0.94              & 0.47           & -           & -          \\ \hline
-% 		% $\loss{AE}$, $\loss{mul(s)}$, $\loss{mul(c)}$                                   & 0.82            & 0.93              & 0.56           & -           & -          \\ \hline
-% 		$\loss{AE}$, $\loss{mul(s)}$, $\loss{adv(s)}$                                   & 0.91                          & 0.87                         & 0.17                         & 0.40              & \textbf{23}                   \\ \hline
-% 		% $\loss{AE}$, $\loss{mul(s)}$, $\loss{adv(c)}$                                   & 0.78            & 0.91              & 0.32           & -           & -          \\ \hline
-% 		% $\loss{AE}$, $\loss{mul(c)}$, $\loss{adv(s)}$                                   & 0.82            & 0.89              & 0.51           & -           & -          \\ \hline
-% 		% $\loss{AE}$, $\loss{mul(c)}$, $\loss{adv(c)}$                                   & 0.15            & 0.93              & 0.62           & -           & -          \\ \hline
-% 		% $\loss{AE}$, $\loss{adv(s)}$, $\loss{adv(c)}$                                   & 0.78            & 0.88              & 0.21           & -           & -          \\ \hline
-% 		% $\loss{AE}$, $\loss{mul(s)}$, $\loss{mul(c)}$, $\loss{adv(s)}$                  & 0.92            & 0.90              & 0.48           & -           & -          \\ \hline
-% 		% $\loss{AE}$, $\loss{mul(s)}$, $\loss{mul(c)}$, $\loss{adv(c)}$                  & 0.84            & 0.92              & 0.56           & -           & -          \\ \hline
-% 		% $\loss{AE}$, $\loss{mul(s)}$, $\loss{adv(s)}$, $\loss{adv(c)}$                  & 0.93            & 0.86              & 0.16           & -           & -          \\ \hline
-% 		% $\loss{AE}$, $\loss{mul(c)}$, $\loss{adv(s)}$, $\loss{adv(c)}$                  & 0.81            & 0.90              & 0.50           & -           & -          \\ \hline
-% 		$\loss{AE}$, $\loss{mul(s)}$, $\loss{adv(s)}$, $\loss{mul(c)}$, $\loss{adv(c)}$ & \textbf{0.93}                 & 0.90                         & \textbf{0.47}                & \textbf{0.66}     & 32                            \\ \hline
-% 	\end{tabular}\vspace{-.2cm}
-% 	\caption{Ablation tests on the Yelp dataset. In all variants, we follow the same protocol of style transfer by substituting an empirical estimate of the target style vector.}
-% 	\label{tab:ablation-results}
-% \end{table*}
+We can see a clear trade-off between style transfer and content preservation, as they are contradictory goals. Especially, a few models have a transfer accuracy lower than 50\%. They are shown in gray, and not the focus of the comparison because the system cannot achieve the goal of style transfer most of the time.
+
+
+The results show that our method achieves high style-transfer accuracy (STA). On Yelp, for example, VAE outperforms previous methods by more than 7\%, whereas on Amazon, VAE is 1\% lower than \newcite{prabhumoye2018style}, ranling the second. 
+
+In the meantime, our approach achieves high content preservation as well. Among all the methods that can achieve more than 50\% transfer accuracy, DAE has a highest word overlap (WO) on Yelp; VAE is also high, although slightly lower than \newcite{li2018delete}. On Amazon, the phenomenon is similar. DAE is the best; VAE is 2\% worse than in word overlap rate  (although 10\% better in transfer accuracy), compared with \newcite{xu2018unpaired}.
+
+For language fluency, VAE yields the best PPL in both datasets. It is also noted that, the cycle reinforcement learning (cycleRL) approach does not generate fluent sentences~\cite{xu2018unpaired}. They have alerting high PPLs, but after reading the samples provided by the authors, we are assured that the sentences obtained by cycleRL are less fluent.
+
+When we consider all the above aspects, our approach (either DAE or VAE) has the highest geometric meaning (GM), showing that we have achieved good performance in transfer strength, content preservation, as well as language fluency. 
+
+
+Table~\ref{tab:manual-evaluation} presents the results of  human evaluation on selected methods.\footnote{Selection was based on the time of availability. Due to the limit of budgets, we did not re-conduct human evaluation when new approaches are published later.} Again, we see that the style embedding model \cite{fu2018style} is ineffective as it has a very low transfer strength, and that our method outperforms other baselines in all aspects. The results are consistent with the automatic metrics in Table~\ref{tab:comparison-previous}. This implies that the automatic metrics we used are reasonable, and could be  extrapolated to different models; it also shows consistent evidence of the effectiveness of our approach.
+
+
+
+
+ 
 
 % \begin{table*}[!t]
 % 	\centering
@@ -563,16 +566,13 @@ For baseline methods, we quoted results from existing papers whenever possible, 
 % 	\label{tab:transfer-samples}
 % \end{table*}
 
-We observe that the style embedding model \cite{fu2018style} performs poorly on the style-transfer objective,\footnote{It should be noted that the transfer accuracy is lower bounded by 0\% as opposed to 50\%, because we always transfer a sentence to the opposite sentiment. The lower-bound, zero transfer accuracy, is achieved by a trivial model that copies the input.} resulting in inflated cosine similarity and word overlap scores. We also examined the number of times each model generates exact copies of the source sentences during style transfer. We notice that the style-embedding model simply reconstructs the exact source sentence $24\%$ of the time, whereas all other models do this less than $6\%$ of the time. Therefore, we do not think that the style embedding approach is an effective model for text style transfer.
-
-The other two competing methods~\cite{shen2017style,zhao2018adversarially} achieve reasonable transfer accuracy and cosine similarity. However, our model outperforms them by 10\% transfer accuracy as well as content preserving scores (measured by cosine similarity and the word overlap rate). This shows our model is able to generate high-quality style transferred sentences, which in turn indicates that the  latent space  is well disentangled into style and content subspaces. Regarding language fluency, we see that VAE is better than DAE in both experiments. This is expected as VAE regularizes the latent space by imposing a probabilistic distribution. We also see that our method achieves considerably more fluent sentences than competing methods, showing that our multi-task and adversarial losses are more ``natural'' than other methods, for example, aligning RNN hidden states \cite{shen2017style}.
 
 
-Table~\ref{tab:manual-evaluation} presents the results of human evaluation. Again, we see that the style embedding model \cite{fu2018style} is ineffective as it has a very low transfer strength, and that our method outperforms other baselines in all aspects. The results are consistent with the automatic metrics in Table~\ref{tab:comparison-previous}. This implies that the automatic metrics we used are reasonable; it also shows consistent evidence of the effectiveness of our approach.
 
-% We conducted ablation tests on the Yelp dataset, and show results in Table~\ref{tab:ablation-results}. With $\loss{VAE}$ only, we cannot achieve reasonable style transfer accuracy by substituting an empirically estimated style vector of the target style.  This is because the style and content spaces would not be disentangled spontaneously with the autoencoding loss alone.
-% With either $\loss{mul(s)}$ or $\loss{adv(s)}$, the model achieves reasonable transfer accuracy and cosine similarity. Combining them together improves the transfer accuracy to 90\%, outperforming previous methods by a margin of 10\% (Table~\ref{tab:comparison-previous}). This shows that the multi-task loss and the adversarial loss work in different ways. Our insight of combining the two auxiliary losses is a simple yet effective way of disentangling latent space.
-% However, $\loss{mul(s)}$ and $\loss{adv(s)}$ only regularize the style information, leading to gradual drop of content preserving scores. Then, we have another insight of introducing content-oriented auxiliary losses, $\loss{mul(c)}$ and $\loss{adv(c)}$, based on BoW features, which regularize the content information in the same way as the style information. By incorporating all these auxiliary losses, we achieve high transfer accuracy, high content preservation, as well as high language fluency.
+
+\textbf{Ablation Test.} We conducted ablation tests on the Yelp dataset, and show results in Table~\ref{tab:ablation-results}. With $\loss{VAE}$ only, we cannot achieve reasonable style transfer accuracy by substituting an empirically estimated style vector of the target style.  This is because the style and content spaces would not be disentangled spontaneously with the autoencoding loss alone.
+ With either $\loss{mul(s)}$ or $\loss{adv(s)}$, the model achieves reasonable transfer accuracy and cosine similarity. Combining them together improves the transfer accuracy to 90\%, outperforming previous methods by a margin of 10\% (Table~\ref{tab:comparison-previous}). This shows that the multi-task loss and the adversarial loss work in different ways. Our insight of combining the two auxiliary losses is a simple yet effective way of disentangling latent space.
+ However, $\loss{mul(s)}$ and $\loss{adv(s)}$ only regularize the style information, leading to gradual drop of content preserving scores. Then, we have another insight of introducing content-oriented auxiliary losses, $\loss{mul(c)}$ and $\loss{adv(c)}$, based on BoW features, which regularize the content information in the same way as the style information. By incorporating all these auxiliary losses, we achieve high transfer accuracy, high content preservation, as well as high language fluency.
 
 % Table~\ref{tab:transfer-samples} provides several examples of our style-transfer model. Results show that we can successfully transfer the sentiment while preserving the content of a sentence.
 % We see that, with the empirically estimated style vector, we can reliably control the sentiment of generated sentences.
@@ -583,9 +583,16 @@ We combine multi-task and adversarial objectives to separate content and style i
 
 Both qualitative and quantitative experiments show that the latent space is indeed separated into style and content parts.
 This disentangled space can be directly applied to text style-transfer tasks.
-It achieves substantially better style-transfer strength, content-preservation scores, as well as language fluency, compared with previous state-of-the-art work.
+It achieves high style-transfer strength, high content-preservation scores, as well as high language fluency, compared with previous work.
 
 \bibliography{naaclhlt2019}
 \bibliographystyle{acl_natbib}
+
+\newpage
+\ \ 
+
+\newpage
+\appendix
+\section{Examples}
 
 \end{document}
