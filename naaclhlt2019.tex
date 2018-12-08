@@ -264,7 +264,7 @@ For a sentence $\rmx$ with $N$ words, the word $w_*$'s BoW probability is given 
 $t_c(w_*)=\frac{\sum_{i=1}^{N}{\mathbb{I}\{w_i = w_*\}}}{N}$,
 where $\mathbb{I\{\cdot\}}$ is an indicator function.
 Here, we only consider content words, excluding stopwords and style-specific words, since we focus on ``content'' information. In particular, we exclude sentiment words from a curated lexicon \cite{hu2004mining} for sentiment style transfer.
-	{\color{red} The effect of using different vocabularies for BoW is analyzed in Supplemental Material A.}
+The effect of using different vocabularies for BoW is analyzed in Supplemental Material B.
 
 \textbf{Multi-Task Loss for Content.} Similar to the style-oriented loss, the multi-task loss for content, denoted as ``mul(c),'' ensures that the content space $\bm c$ contains content information, i.e., BoW features.
 We introduce a softmax classifier over the BoW vocabulary
@@ -389,7 +389,7 @@ We show t-SNE plots~\cite{maaten2008visualizing} of both the DAE and the VAE mod
 As seen, sentences with different styles are noticeably separated in a clean manner in the style space (LHS), but are indistinguishable in the content space (RHS).
 It is also evident that the latent space learned by the VAE is considerably smoother and continuous compared with the one learned by DAE.
 
-	{\color{red} We show t-SNE plots for ablation tests with different combinations of auxiliary losses in Supplemental Material B.}
+We show t-SNE plots for ablation tests with different combinations of auxiliary losses in Supplemental Material C.
 
 \begin{table}[!t]
 	\centering
@@ -511,7 +511,6 @@ The inter-rater agreement---as measured by Krippendorff's alpha \cite{krippendor
 \textbf{Overall performance.}
 We compare our approach with previous state-of-the-art work in Table \ref{tab:comparison-previous}.
 For competing methods, we quote results from existing papers whenever possible. In some studies, the authors release their style-transferred sentences, and we tested them with our metrics. A caveat is that this may involve a different data spit, providing a rough (but unbiased) comparison. For others, we re-implemented the model using publicly available code. We would also wish to compare with~\newcite{hu2017toward}, but unfortunately could not find publicly available code. We look for their model performance which is compared with in subsequent work, and find that, according to the human annotation in~\newcite{shen2017style}, \newcite{hu2017toward} is comparable but slightly worse than \newcite{shen2017style}. The latter is compared with our model in terms of both automatic metrics and human evaluation.
-
 
 We can see a clear trade-off between style transfer and content preservation, as they are contradictory goals. Especially, a few models have a transfer accuracy lower than 50\%. They are shown in gray, and not the focus of the comparison because the system cannot achieve the goal of style transfer most of the time.
 
