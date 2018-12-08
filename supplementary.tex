@@ -93,32 +93,26 @@ We see that, with the empirically estimated style vector, we can reliably contro
 \end{table*}
 
 
-% \section{Bag-of-Words (BoW) Vocabulary Ablation Tests}
+\section{Bag-of-Words (BoW) Vocabulary Ablation Tests}
 
-% The tests in Table \ref{tab:bow-vocab-ablation} demonstrate the effect of the choice of vocabulary used for the auxiliary content losses.
+The tests in Table \ref{tab:bow-vocab-ablation} demonstrate the effect of the choice of vocabulary used for the auxiliary content losses.
 
-% \begin{table}[ht]
-% 	\centering
-% 	\begin{tabular}{| l || c | c | c | c |}
-% 		\hline
-% 		\tabc{2}{BoW Vocabulary}                         & \tabh{Transfer} & \tabh{Cosine}     & \tabh{Word}    & \tabh{Language} \\
-% 		                                                 & \tabh{Strength} & \tabh{Similarity} & \tabh{Overlap} & \tabh{Fluency}  \\
-% 		\hline
-% 		\hline
-% 		Full Corpus Vocabulary                           & 0.822           & 0.896             & 0.344          & -10.13          \\
-% 		\hline
-% 		Vocabulary without sentiment words               & 0.872           & 0.901             & 0.359          & -10.33          \\
-% 		\hline
-% 		Vocabulary without stopwords                     & 0.836           & 0.894             & 0.429          & -10.06          \\
-% 		\hline
-% 		Vocabulary without stopwords and sentiment words & \textbf{0.934}  & \textbf{0.904}    & \textbf{0.473} & \textbf{-9.84}  \\
-% 		\hline
-% 	\end{tabular}
-% 	\caption{Ablation tests on the BoW vocabulary.}
-% 	\label{tab:bow-vocab-ablation}
-% \end{table}
+\begin{table}[ht]
+	\centering
+	\begin{tabular}{| l || c | c | c | c || c |}
+		\hline
+		\tabc{1}{BoW Vocabulary}                         & \textbf{STA}   & \textbf{CS}    & \textbf{WO}    & \textbf{PPL} & \textbf{GM}   \\
+		\hline \hline
+		Full Corpus Vocabulary                           & 0.822          & 0.896          & 0.344          & \textbf{30}  & 0.21          \\ \hline
+		Vocabulary without sentiment words               & 0.872          & 0.901          & 0.359          & \textbf{30}  & 0.22          \\ \hline
+		Vocabulary without stopwords                     & 0.836          & 0.894          & 0.429          & 33           & 0.22          \\ \hline
+		Vocabulary without stopwords and sentiment words & \textbf{0.934} & \textbf{0.904} & \textbf{0.473} & 32           & \textbf{0.24} \\ \hline
+	\end{tabular}
+	\caption{Ablation tests on the BoW vocabulary.}
+	\label{tab:bow-vocab-ablation}
+\end{table}
 
-It is evident that using a BoW vocabulary that excludes sentiment words and stopwords performs better on every single quantitative metric.
+It is evident that using a BoW vocabulary that excludes sentiment words and stopwords performs better overall.
 
 
 \section{t-SNE plots of Ablation Tests}
