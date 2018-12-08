@@ -183,7 +183,9 @@ Suppose at a time step $t$, the decoder RNN predicts the word $x_t$ with probabi
 \begin{equation}\nonumber
 	\loss{AE}(\nnweight{E},\nnweight{D})= -\sum\nolimits_{t=1}^n \log p(x_t|\bm h, x_1\cdots x_{t-1})
 \end{equation}
-where $\nnweight{E}$ and $\nnweight{D}$ are the parameters of the encoder and decoder, respectively.\footnote{For brevity, we only present the loss for a single data point (i.e., a sentence) throughout the paper. Total loss sums over all data points, and is implemented with mini-batches.} Both the encoder and decoder are deterministic functions in the original model~\cite{rumelhart1985learning}, and thus, we call it a \textit{deterministic autoencoder} (DAE).
+where $\nnweight{E}$ and $\nnweight{D}$ are the parameters of the encoder and decoder, respectively.
+For brevity, we only present the loss for a single data point (i.e., a sentence) throughout the paper. Total loss sums over all data points, and is implemented with mini-batches.
+Both the encoder and decoder are deterministic functions in the original model~\cite{rumelhart1985learning}, and thus, we call it a \textit{deterministic autoencoder} (DAE).
 
 
 \textbf{Variational Autoencoder.} Alternatively, we may use a variational autoencoder~\cite[VAE,][]{kingma2013auto}, which imposes a probabilistic distribution on the latent vector. The decoder reconstructs data based on the sampled latent vector from its posterior, and the Kullback--Leibler~(KL, \citeyear{kullback1951information}) divergence  is penalized for regularization.
