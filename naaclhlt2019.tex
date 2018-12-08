@@ -141,13 +141,13 @@ In NLP, the definition of ``style'' itself is vague, and as a convenient startin
 \citet{hu2017toward} propose to control the sentiment by using discriminators to reconstruct sentiment and content from generated sentences.
 However, there is no evidence that the latent space would be disentangled by this reconstruction.
 \citet{shen2017style} use a pair of adversarial discriminators to align the recurrent hidden decoder states of original and style-transferred sentences, for a given style.
-\citet{fu2018style} propose two approaches: training style-specific embeddings, and training separate style-specific decoders. They apply an adversarial loss on the encoded space to discourage encoding style in the latent space of an autoencoding model. 
+\citet{fu2018style} propose two approaches: training style-specific embeddings, and training separate style-specific decoders. They apply an adversarial loss on the encoded space to discourage encoding style in the latent space of an autoencoding model.
 \citet{zhao2018adversarially} extend the multi-decoder approach and use a Wasserstein-distance penalty to align content representations of sentences with different styles.
 \citet{prabhumoye2018style} use a machine-translation preprocessing step to strip author style from documents, and then use a multi-decoder model to convert the result into a sentence with a specific style.
 \citet{xu2018unpaired} propose using ``neutralization'' and ``emotionalization'' modules in a reinforcement learning framework.
 \citet{li2018delete} use a hybrid retrieval and generation method that generates a desired sentence with input content and a retrieved style.
 
-\citet{rao2018dear} treat the formality of writing as a style, and create a parallel corpus for style transfer with sequence-to-sequence models. 
+\citet{rao2018dear} treat the formality of writing as a style, and create a parallel corpus for style transfer with sequence-to-sequence models.
 This is beyond the scope of our paper, as we focus on non-parallel text style transfer.
 
 Our paper differs from previous work in that both our style space and content space are encoded from the input, and we design several auxiliary losses to ensure that each space encodes and only encodes the desired information.
@@ -267,10 +267,10 @@ Inspired by the above combination of multi-task and adversarial losses, we apply
 
 To this end, we propose to approximate the content information by bag-of-words (BoW) features.
 The BoW feature of a sentence is a vector, each element indicating the probability of a word's occurrence.
-For a sentence $\rmx$ with $N$ words, the word $w_*$'s BoW probability is 
+For a sentence $\rmx$ with $N$ words, the word $w_*$'s BoW probability is
 $t_c(w_*)=\frac{\sum_{i=1}^{N}{\mathbb{I}\{w_i = w_*\}}}{N}$,
 where $\mathbb{I\{\cdot\}}$ is an indicator function.
-Here, we only consider content words, excluding stopwords and style-specific words~\cite{hu2004mining},\footnote{\url{https://www.cs.uic.edu/~liub/FBS/sentiment-analysis.html\#lexicon}} since we focus on ``content'' information. 
+Here, we only consider content words, excluding stopwords and style-specific words~\cite{hu2004mining},\footnote{\url{https://www.cs.uic.edu/~liub/FBS/sentiment-analysis.html\#lexicon}} since we focus on ``content'' information.
 The effect of using different vocabularies for BoW is analyzed in Supplemental Material~B.
 
 \textbf{Multi-Task Loss for Content.} Similar to the style-oriented loss, the multi-task loss for content, denoted as ``mul(c),'' ensures that the content space $\bm c$ contains content information, i.e., BoW features.
@@ -455,7 +455,7 @@ While the style classifier itself may not be perfect, it achieves a reasonable s
 Thus, it provides a quantitative way of evaluating the strength of style transfer.
 
 \textit{Cosine Similarity} (\textbf{CS}):
-We followed \citet{fu2018style} and computed the cosine measure between source and generated sentence embeddings, which are the concatenation of $\operatorname{min}$, $\operatorname{max}$, and $\operatorname{mean}$ of word embeddings (sentiment words removed). 
+We followed \citet{fu2018style} and computed the cosine measure between source and generated sentence embeddings, which are the concatenation of $\operatorname{min}$, $\operatorname{max}$, and $\operatorname{mean}$ of word embeddings (sentiment words removed).
 This provides a rough estimation of content preservation.
 %Then, we computed the cosine similarity between the source and generated sentences' embeddings, serving as a rough estimation of content preservation.
 
@@ -518,21 +518,21 @@ For language fluency, VAE yields the best PPL in both datasets. It is also noted
 When we consider all the above aspects, our approach (either DAE or VAE) has the highest geometric meaning (GM), showing that we have achieved good performance in transfer strength, content preservation, as well as language fluency.
 
 Table~\ref{tab:manual-evaluation} presents the results of human evaluation on selected methods.\footnote{Selection was based on the time of availability. Due to the limit of budgets, we did not re-conduct human evaluation when new approaches are published later.}
-Again, we see that the style embedding model \cite{fu2018style} is ineffective as it has a very low transfer strength, and that our method outperforms other baselines in all aspects. The results are consistent with Table~\ref{tab:comparison-previous}. This implies that the automatic metrics we used are reasonable, and could be  extrapolated to different models; it also shows consistent evidence of the effectiveness of our approach. 
+Again, we see that the style embedding model \cite{fu2018style} is ineffective as it has a very low transfer strength, and that our method outperforms other baselines in all aspects. The results are consistent with Table~\ref{tab:comparison-previous}. This implies that the automatic metrics we used are reasonable, and could be  extrapolated to different models; it also shows consistent evidence of the effectiveness of our approach.
 \begin{table}[!t]
 	\centering\vspace{-.2cm}\small
 	\resizebox{\linewidth}{!}{
-	\begin{tabular}{| l || c | c | c | c || c |}
-		\hline
-		\tabc{1}{Objectives}                                                            & \textbf{STA}  & \textbf{CS}   & \textbf{WO}   & \textbf{PPL} & \textbf{GM}   \\
-		\hline\hline
-		$\loss{AE}$                                                                     & 0.11          & \textbf{0.94} & \textbf{0.47} & 40           & 0.11          \\ \hline
-		$\loss{AE}$, $\loss{mul(s)}$                                                    & 0.77          & 0.91          & 0.33          & 41           & 0.18          \\ \hline
-		$\loss{AE}$, $\loss{adv(s)}$                                                    & 0.78          & 0.89          & 0.23          & 35           & 0.17          \\ \hline
-		$\loss{AE}$, $\loss{mul(s)}$, $\loss{adv(s)}$                                   & 0.91          & 0.87          & 0.17          & \textbf{23}  & 0.19          \\ \hline
-		$\loss{AE}$, $\loss{mul(s)}$, $\loss{adv(s)}$,  &\multirow{2}{*}{ \textbf{0.93}} & \multirow{2}{*}{0.90}          & \multirow{2}{*}{\textbf{0.47}} & \multirow{2}{*}{32}           & \multirow{2}{*}{\textbf{0.24}} \\ 
-		$\loss{mul(c)}$, $\loss{adv(c)}$& & & & & \\\hline
-	\end{tabular}}\vspace{-.2cm}
+		\begin{tabular}{| l || c | c | c | c || c |}
+			\hline
+			\tabc{1}{Objectives}                           & \textbf{STA}                    & \textbf{CS}           & \textbf{WO}                    & \textbf{PPL}        & \textbf{GM}                    \\
+			\hline\hline
+			$\loss{AE}$                                    & 0.11                            & \textbf{0.94}         & \textbf{0.47}                  & 40                  & 0.11                           \\ \hline
+			$\loss{AE}$, $\loss{mul(s)}$                   & 0.77                            & 0.91                  & 0.33                           & 41                  & 0.18                           \\ \hline
+			$\loss{AE}$, $\loss{adv(s)}$                   & 0.78                            & 0.89                  & 0.23                           & 35                  & 0.17                           \\ \hline
+			$\loss{AE}$, $\loss{mul(s)}$, $\loss{adv(s)}$  & 0.91                            & 0.87                  & 0.17                           & \textbf{23}         & 0.19                           \\ \hline
+			$\loss{AE}$, $\loss{mul(s)}$, $\loss{adv(s)}$, & \multirow{2}{*}{ \textbf{0.93}} & \multirow{2}{*}{0.90} & \multirow{2}{*}{\textbf{0.47}} & \multirow{2}{*}{32} & \multirow{2}{*}{\textbf{0.24}} \\
+			$\loss{mul(c)}$, $\loss{adv(c)}$               &                                 &                       &                                &                     &                                \\\hline
+		\end{tabular}}\vspace{-.2cm}
 	\caption{Ablation tests on  Yelp. In all variants, we follow the same protocol of style transfer by substituting an empirical estimate of the target style vector.}
 	\label{tab:ablation-results}
 \end{table}
