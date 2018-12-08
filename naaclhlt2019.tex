@@ -540,38 +540,9 @@ Table~\ref{tab:manual-evaluation} presents the results of human evaluation on se
 \footnote{Selection was based on the time of availability. Due to the limit of budgets, we did not re-conduct human evaluation when new approaches are published later.} 
 Again, we see that the style embedding model \cite{fu2018style} is ineffective as it has a very low transfer strength, and that our method outperforms other baselines in all aspects. The results are consistent with Table~\ref{tab:comparison-previous}. This implies that the automatic metrics we used are reasonable, and could be  extrapolated to different models; it also shows consistent evidence of the effectiveness of our approach.
 
-
-% \begin{table*}[!t]
-% 	\centering
-% 	\resizebox{.95\textwidth}{!}{\footnotesize
-% 		\begin{tabular}{| p{0.3\linewidth} || p{0.3\linewidth} | p{0.3\linewidth} |}
-% 			\hline
-% 			\tabc{1}{Original (Positive)}                                           & \tabh{DAE Transferred (Negative)}                                         & \tabh{VAE Transferred (Negative)}                          \\
-% 			\hline \hline
-% 			the food is excellent and the service is exceptional                    & the food was a bit bad but the staff was exceptional                      & the food was bland and i am not thrilled with this         \\ \hline
-% 			the waitresses are friendly and helpful                                 & the guys are rude and helpful                                             & the waitresses are rude and are lazy                       \\ \hline
-% 			the restaurant itself is romantic and quiet                             & the restaurant itself is awkward and quite crowded                        & the restaurant itself was dirty                            \\ \hline
-% 			great deal                                                              & horrible deal                                                             & no deal                                                    \\ \hline
-% 			both times i have eaten the lunch buffet and it was outstanding         & their burgers were decent but the eggs were not the consistency           & both times i have eaten here the food was mediocre at best \\ \hline
-% 			\hline
-% 			\tabc{1}{Original (Negative)}                                           & \tabh{DAE Transferred (Positive)}                                         & \tabh{VAE Transferred (Positive)}                          \\
-% 			\hline \hline
-% 			the desserts were very bland                                            & the desserts were very good                                               & the desserts were very good                                \\ \hline
-% 			it was a bed of lettuce and spinach with some italian meats and cheeses & it was a beautiful setting and just had a large variety of german flavors & it was a huge assortment of flavors and italian food       \\ \hline
-% 			the people behind the counter were not friendly whatsoever              & the best selection behind the register and service presentation           & the people behind the counter is friendly caring           \\ \hline
-% 			the interior is old and generally falling apart                         & the decor is old and now perfectly                                        & the interior is old and noble                              \\ \hline
-% 			they are clueless                                                       & they are stoked                                                           & they are genuinely professionals                           \\ \hline
-% 		\end{tabular}}\vspace{-.2cm}
-% 	\caption{Examples of style transferred sentence generation.}\vspace{-.2cm}
-% 	\label{tab:transfer-samples}
-% \end{table*}
-
 \textbf{Ablation Test.} We conducted ablation tests on the Yelp dataset, and show results in Table~\ref{tab:ablation-results}. With $\loss{AE}$ only, we cannot achieve reasonable style transfer accuracy by substituting an empirically estimated style vector of the target style.  This is because the style and content spaces would not be disentangled spontaneously with the autoencoding loss alone.
 With either $\loss{mul(s)}$ or $\loss{adv(s)}$, the model achieves reasonable transfer accuracy and cosine similarity. Combining them together improves the transfer accuracy to 90\%, outperforming previous methods by a margin of $5\%$ (Table~\ref{tab:comparison-previous}). This shows that the multi-task loss and the adversarial loss work in different ways. Our insight of combining the two auxiliary losses is a simple yet effective way of disentangling latent space.
 However, $\loss{mul(s)}$ and $\loss{adv(s)}$ only regularize the style information, leading to gradual drop of content preserving scores. Then, we have another insight of introducing content-oriented auxiliary losses, $\loss{mul(c)}$ and $\loss{adv(c)}$, based on BoW features, which regularize the content information in the same way as the style. By incorporating all these auxiliary losses, we achieve high transfer accuracy, high content preservation, as well as high language fluency.
-
-% Table~\ref{tab:transfer-samples} provides several examples of our style-transfer model. Results show that we can successfully transfer the sentiment while preserving the content of a sentence.
-% We see that, with the empirically estimated style vector, we can reliably control the sentiment of generated sentences.
 
 \section{Conclusion}
 In this paper, we propose an effective approach for disentangling style and content latent spaces.
