@@ -36,28 +36,28 @@ Then, we have another insight of introducing content-oriented auxiliary losses, 
 By incorporating all these auxiliary losses, we achieve high transfer accuracy, high content preservation, as well as high language fluency.
 
 \begin{table*}[ht]
-	\centering
-	\begin{tabular}{| l || c | c | c | c | c |}
+	\centering\vspace{-.2cm}\small
+	\begin{tabular}{| l || c | c | c | c || c |}
 		\hline
-		\tabc{1}{Objectives}                                                            & \textbf{STA}  & \textbf{CS}   & \textbf{WO}   & \textbf{PPL} \\
+		\tabc{1}{Objectives}                                                            & \textbf{STA}  & \textbf{CS}   & \textbf{WO}   & \textbf{PPL} & \textbf{GM}   \\
 		\hline\hline
-		$\loss{AE}$                                                                     & 0.11          & \textbf{0.94} & 0.47          & 40           \\ \hline
-		$\loss{AE}$, $\loss{mul(s)}$                                                    & 0.77          & 0.91          & 0.33          & 41           \\ \hline
-		% $\loss{AE}$, $\loss{mul(c)}$                                                    & 0.16            & 0.93              & 0.63           & -           & -          \\ \hline
-		$\loss{AE}$, $\loss{adv(s)}$                                                    & 0.78          & 0.89          & 0.23          & 35           \\ \hline
-		% $\loss{AE}$, $\loss{adv(c)}$                                                    & 0.10            & 0.94              & 0.47           & -           & -          \\ \hline
-		% $\loss{AE}$, $\loss{mul(s)}$, $\loss{mul(c)}$                                   & 0.82            & 0.93              & 0.56           & -           & -          \\ \hline
-		$\loss{AE}$, $\loss{mul(s)}$, $\loss{adv(s)}$                                   & 0.91          & 0.87          & 0.17          & \textbf{23}  \\ \hline
-		% $\loss{AE}$, $\loss{mul(s)}$, $\loss{adv(c)}$                                   & 0.78            & 0.91              & 0.32           & -           & -          \\ \hline
-		% $\loss{AE}$, $\loss{mul(c)}$, $\loss{adv(s)}$                                   & 0.82            & 0.89              & 0.51           & -           & -          \\ \hline
-		% $\loss{AE}$, $\loss{mul(c)}$, $\loss{adv(c)}$                                   & 0.15            & 0.93              & 0.62           & -           & -          \\ \hline
-		% $\loss{AE}$, $\loss{adv(s)}$, $\loss{adv(c)}$                                   & 0.78            & 0.88              & 0.21           & -           & -          \\ \hline
-		% $\loss{AE}$, $\loss{mul(s)}$, $\loss{mul(c)}$, $\loss{adv(s)}$                  & 0.92            & 0.90              & 0.48           & -           & -          \\ \hline
-		% $\loss{AE}$, $\loss{mul(s)}$, $\loss{mul(c)}$, $\loss{adv(c)}$                  & 0.84            & 0.92              & 0.56           & -           & -          \\ \hline
-		% $\loss{AE}$, $\loss{mul(s)}$, $\loss{adv(s)}$, $\loss{adv(c)}$                  & 0.93            & 0.86              & 0.16           & -           & -          \\ \hline
-		% $\loss{AE}$, $\loss{mul(c)}$, $\loss{adv(s)}$, $\loss{adv(c)}$                  & 0.81            & 0.90              & 0.50           & -           & -          \\ \hline
-		$\loss{AE}$, $\loss{mul(s)}$, $\loss{adv(s)}$, $\loss{mul(c)}$, $\loss{adv(c)}$ & \textbf{0.93} & 0.90          & \textbf{0.47} & 32           \\ \hline
-	\end{tabular}
+		$\loss{AE}$                                                                     & 0.11          & \textbf{0.94} & \textbf{0.47} & 40           & 0.11          \\ \hline
+		$\loss{AE}$, $\loss{mul(s)}$                                                    & 0.77          & 0.91          & 0.33          & 41           & 0.18          \\ \hline
+		$\loss{AE}$, $\loss{mul(c)}$                                                    & 0.16          & 0.93          & 0.63          & -            & -             \\ \hline
+		$\loss{AE}$, $\loss{adv(s)}$                                                    & 0.78          & 0.89          & 0.23          & 35           & 0.17          \\ \hline
+		$\loss{AE}$, $\loss{adv(c)}$                                                    & 0.10          & 0.94          & 0.47          & -            & -             \\ \hline
+		$\loss{AE}$, $\loss{mul(s)}$, $\loss{mul(c)}$                                   & 0.82          & 0.93          & 0.56          & -            & -             \\ \hline
+		$\loss{AE}$, $\loss{mul(s)}$, $\loss{adv(s)}$                                   & 0.91          & 0.87          & 0.17          & \textbf{23}  & 0.19          \\ \hline
+		$\loss{AE}$, $\loss{mul(s)}$, $\loss{adv(c)}$                                   & 0.78          & 0.91          & 0.32          & -            & -             \\ \hline
+		$\loss{AE}$, $\loss{mul(c)}$, $\loss{adv(s)}$                                   & 0.82          & 0.89          & 0.51          & -            & -             \\ \hline
+		$\loss{AE}$, $\loss{mul(c)}$, $\loss{adv(c)}$                                   & 0.15          & 0.93          & 0.62          & -            & -             \\ \hline
+		$\loss{AE}$, $\loss{adv(s)}$, $\loss{adv(c)}$                                   & 0.78          & 0.88          & 0.21          & -            & -             \\ \hline
+		$\loss{AE}$, $\loss{mul(s)}$, $\loss{mul(c)}$, $\loss{adv(s)}$                  & 0.92          & 0.90          & 0.48          & -            & -             \\ \hline
+		$\loss{AE}$, $\loss{mul(s)}$, $\loss{mul(c)}$, $\loss{adv(c)}$                  & 0.84          & 0.92          & 0.56          & -            & -             \\ \hline
+		$\loss{AE}$, $\loss{mul(s)}$, $\loss{adv(s)}$, $\loss{adv(c)}$                  & 0.93          & 0.86          & 0.16          & -            & -             \\ \hline
+		$\loss{AE}$, $\loss{mul(c)}$, $\loss{adv(s)}$, $\loss{adv(c)}$                  & 0.81          & 0.90          & 0.50          & -            & -             \\ \hline
+		$\loss{AE}$, $\loss{mul(s)}$, $\loss{adv(s)}$, $\loss{mul(c)}$, $\loss{adv(c)}$ & \textbf{0.93} & 0.90          & \textbf{0.47} & 32           & \textbf{0.24} \\ \hline
+	\end{tabular}\vspace{-.2cm}
 	\caption{Ablation tests on the Yelp dataset. In all variants, we follow the same protocol of style transfer by substituting an empirical estimate of the target style vector.}
 	\label{tab:ablation-results}
 \end{table*}

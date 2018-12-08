@@ -141,7 +141,7 @@ In NLP, the definition of ``style'' itself is vague, and as a convenient startin
 \citet{hu2017toward} propose to control the sentiment by using discriminators to reconstruct sentiment and content from generated sentences.
 However, there is no evidence that the latent space would be disentangled by this reconstruction.
 \citet{shen2017style} use a pair of adversarial discriminators to align the recurrent hidden decoder states of original and style-transferred sentences, for a given style.
-\citet{fu2018style} propose two approaches: training style-specific embeddings, and training separate style-specific decoders for style-transfer. They apply an adversarial loss on the encoded space to discourage encoding style in the latent space of an autoencoding model. \citet{zhao2018adversarially} extend the multi-decoder approach and use a Wasserstein-distance penalty to align content representations of sentences with different styles. 
+\citet{fu2018style} propose two approaches: training style-specific embeddings, and training separate style-specific decoders for style-transfer. They apply an adversarial loss on the encoded space to discourage encoding style in the latent space of an autoencoding model. \citet{zhao2018adversarially} extend the multi-decoder approach and use a Wasserstein-distance penalty to align content representations of sentences with different styles.
 \citet{prabhumoye2018style} use a machine-translation preprocessing step to strip author style from documents, and then use a multi-decoder model to convert the result into a sentence with a specific style.
 \citet{xu2018unpaired} propose using ``neutralization'' and ``emotionalization'' modules in a reinforcement learning framework.
 \citet{li2018delete} propose a hybrid a retrieval and generation method that generates a desired sentence with input content and a retrieved style.
@@ -264,7 +264,7 @@ For a sentence $\rmx$ with $N$ words, the word $w_*$'s BoW probability is given 
 $t_c(w_*)=\frac{\sum_{i=1}^{N}{\mathbb{I}\{w_i = w_*\}}}{N}$,
 where $\mathbb{I\{\cdot\}}$ is an indicator function.
 Here, we only consider content words, excluding stopwords and style-specific words, since we focus on ``content'' information. In particular, we exclude sentiment words from a curated lexicon \cite{hu2004mining} for sentiment style transfer.
-{\color{red} The effect of using different vocabularies for BoW is analyzed in Supplemental Material A.}
+	{\color{red} The effect of using different vocabularies for BoW is analyzed in Supplemental Material A.}
 
 \textbf{Multi-Task Loss for Content.} Similar to the style-oriented loss, the multi-task loss for content, denoted as ``mul(c),'' ensures that the content space $\bm c$ contains content information, i.e., BoW features.
 We introduce a softmax classifier over the BoW vocabulary
@@ -298,8 +298,8 @@ The adversarial loss for the model is to maximize the entropy of the discriminat
 \end{equation}
 Again, $\loss{dis(c)}$ is trained with respect to the discriminator's parameters $\nnweight{dis(c)}$, whereas $\loss{adv(c)}$ is trained with respect to $\nnweight{E}$, similar to the adversarial loss for style.
 
-Our BoW-based, content-oriented losses are novel in the style-transfer literature. 
-While they do not directly work with ``style'', the regularize the content information, so that the style and content can be better disentangled. 
+Our BoW-based, content-oriented losses are novel in the style-transfer literature.
+While they do not directly work with ``style'', the regularize the content information, so that the style and content can be better disentangled.
 
 
 \subsection{Training Process}
@@ -389,7 +389,7 @@ We show t-SNE plots~\cite{maaten2008visualizing} of both the DAE and the VAE mod
 As seen, sentences with different styles are noticeably separated in a clean manner in the style space (LHS), but are indistinguishable in the content space (RHS).
 It is also evident that the latent space learned by the VAE is considerably smoother and continuous compared with the one learned by DAE.
 
-{\color{red} We show t-SNE plots for ablation tests with different combinations of auxiliary losses in Supplemental Material B.}
+	{\color{red} We show t-SNE plots for ablation tests with different combinations of auxiliary losses in Supplemental Material B.}
 
 \begin{table}[!t]
 	\centering
@@ -454,7 +454,7 @@ We followed \citet{fu2018style} and computed the cosine measure between source a
 %Then, we computed the cosine similarity between the source and generated sentences' embeddings, serving as a rough estimation of content preservation.
 
 \textit{Word Overlap} (\textbf{WO}):
-We find that cosine similarity, although correlated to human judgment, is not a sensitive measure. 
+We find that cosine similarity, although correlated to human judgment, is not a sensitive measure.
 Instead, we propose a simple, yet effective, measure that counts the unigram word overlap rate of the original sentence $\mathrm x$ and the style-transferred sentence $\mathrm y$, computed by $\frac{count(w_{\mathrm x} \cap w_{\mathrm y})}{count(w_{\mathrm x} \cup w_{\mathrm y})}$.
 Here, we exclude both stopwords and sentiment words.
 
@@ -500,19 +500,8 @@ The inter-rater agreement---as measured by Krippendorff's alpha \cite{krippendor
 		\hline\hline
 		$\loss{AE}$                                                                     & 0.11          & \textbf{0.94} & \textbf{0.47} & 40           & 0.11          \\ \hline
 		$\loss{AE}$, $\loss{mul(s)}$                                                    & 0.77          & 0.91          & 0.33          & 41           & 0.18          \\ \hline
-		% $\loss{AE}$, $\loss{mul(c)}$                                                    & 0.16          & 0.93          & 0.63          & -            & -             \\ \hline
 		$\loss{AE}$, $\loss{adv(s)}$                                                    & 0.78          & 0.89          & 0.23          & 35           & 0.17          \\ \hline
-		% $\loss{AE}$, $\loss{adv(c)}$                                                    & 0.10          & 0.94          & 0.47          & -            & -             \\ \hline
-		% $\loss{AE}$, $\loss{mul(s)}$, $\loss{mul(c)}$                                   & 0.82          & 0.93          & 0.56          & -            & -             \\ \hline
 		$\loss{AE}$, $\loss{mul(s)}$, $\loss{adv(s)}$                                   & 0.91          & 0.87          & 0.17          & \textbf{23}  & 0.19          \\ \hline
-		% $\loss{AE}$, $\loss{mul(s)}$, $\loss{adv(c)}$                                   & 0.78          & 0.91          & 0.32          & -            & -             \\ \hline
-		% $\loss{AE}$, $\loss{mul(c)}$, $\loss{adv(s)}$                                   & 0.82          & 0.89          & 0.51          & -            & -             \\ \hline
-		% $\loss{AE}$, $\loss{mul(c)}$, $\loss{adv(c)}$                                   & 0.15          & 0.93          & 0.62          & -            & -             \\ \hline
-		% $\loss{AE}$, $\loss{adv(s)}$, $\loss{adv(c)}$                                   & 0.78          & 0.88          & 0.21          & -            & -             \\ \hline
-		% $\loss{AE}$, $\loss{mul(s)}$, $\loss{mul(c)}$, $\loss{adv(s)}$                  & 0.92          & 0.90          & 0.48          & -            & -             \\ \hline
-		% $\loss{AE}$, $\loss{mul(s)}$, $\loss{mul(c)}$, $\loss{adv(c)}$                  & 0.84          & 0.92          & 0.56          & -            & -             \\ \hline
-		% $\loss{AE}$, $\loss{mul(s)}$, $\loss{adv(s)}$, $\loss{adv(c)}$                  & 0.93          & 0.86          & 0.16          & -            & -             \\ \hline
-		% $\loss{AE}$, $\loss{mul(c)}$, $\loss{adv(s)}$, $\loss{adv(c)}$                  & 0.81          & 0.90          & 0.50          & -            & -             \\ \hline
 		$\loss{AE}$, $\loss{mul(s)}$, $\loss{adv(s)}$, $\loss{mul(c)}$, $\loss{adv(c)}$ & \textbf{0.93} & 0.90          & \textbf{0.47} & 32           & \textbf{0.24} \\ \hline
 	\end{tabular}\vspace{-.2cm}
 	\caption{Ablation tests on the Yelp dataset. In all variants, we follow the same protocol of style transfer by substituting an empirical estimate of the target style vector.}
@@ -525,11 +514,11 @@ For competing methods, we quote results from existing papers whenever possible. 
 
 We can see a clear trade-off between style transfer and content preservation, as they are contradictory goals. Especially, a few models have a transfer accuracy lower than 50\%. They are shown in gray, and not the focus of the comparison because the system cannot achieve the goal of style transfer most of the time.
 
-Our method achieves high style-transfer accuracy (STA) in both experiments. 
+Our method achieves high style-transfer accuracy (STA) in both experiments.
 On Yelp, for example, VAE outperforms previous methods by more than 7\%, whereas on Amazon, VAE is 1\% lower than \citet{prabhumoye2018style}, ranking the second.
 
-Our approach achieves high content preservation, as well. 
-Among all the methods that can achieve more than 50\% transfer accuracy, DAE has the highest word overlap (WO) on Yelp; VAE is also high, although slightly lower than \citet{li2018delete}. 
+Our approach achieves high content preservation, as well.
+Among all the methods that can achieve more than 50\% transfer accuracy, DAE has the highest word overlap (WO) on Yelp; VAE is also high, although slightly lower than \citet{li2018delete}.
 On Amazon, the phenomenon is similar. DAE is the best; VAE is 2\% lower in WO  (although 10\% better in transfer accuracy), compared with \citet{xu2018unpaired}.
 
 For language fluency, VAE yields the best PPL in both datasets. It is also noted that, the cycle reinforcement learning (CycleRL) approach does not generate fluent sentences~\cite{xu2018unpaired}. They have unusually high PPL scores, but after reading the samples provided by the authors,\footnote{via personal email correspondence} we are assured that the sentences obtained by CycleRL are less fluent.
@@ -537,7 +526,7 @@ For language fluency, VAE yields the best PPL in both datasets. It is also noted
 When we consider all the above aspects, our approach (either DAE or VAE) has the highest geometric meaning (GM), showing that we have achieved good performance in transfer strength, content preservation, as well as language fluency.
 
 Table~\ref{tab:manual-evaluation} presents the results of human evaluation on selected methods.
-\footnote{Selection was based on the time of availability. Due to the limit of budgets, we did not re-conduct human evaluation when new approaches are published later.} 
+\footnote{Selection was based on the time of availability. Due to the limit of budgets, we did not re-conduct human evaluation when new approaches are published later.}
 Again, we see that the style embedding model \cite{fu2018style} is ineffective as it has a very low transfer strength, and that our method outperforms other baselines in all aspects. The results are consistent with Table~\ref{tab:comparison-previous}. This implies that the automatic metrics we used are reasonable, and could be  extrapolated to different models; it also shows consistent evidence of the effectiveness of our approach.
 
 \textbf{Ablation Test.} We conducted ablation tests on the Yelp dataset, and show results in Table~\ref{tab:ablation-results}. With $\loss{AE}$ only, we cannot achieve reasonable style transfer accuracy by substituting an empirically estimated style vector of the target style.  This is because the style and content spaces would not be disentangled spontaneously with the autoencoding loss alone.
