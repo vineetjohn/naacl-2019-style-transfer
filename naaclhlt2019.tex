@@ -271,7 +271,7 @@ For a sentence $\rmx$ with $N$ words, the word $w_*$'s BoW probability is
 $t_c(w_*)=\frac{\sum_{i=1}^{N}{\mathbb{I}\{w_i = w_*\}}}{N}$,
 where $\mathbb{I\{\cdot\}}$ is an indicator function.
 Here, we only consider content words, excluding stopwords and style-specific words~\cite{hu2004mining},\footnote{\url{https://www.cs.uic.edu/~liub/FBS/sentiment-analysis.html\#lexicon}} since we focus on ``content'' information.
-The effect of using different vocabularies for BoW is analyzed in Supplemental Material~B.
+The effect of using different vocabularies for BoW is analyzed in Supplementary Material~B.
 
 \textbf{Multi-Task Loss for Content.} Similar to the style-oriented loss, the multi-task loss for content, denoted as ``mul(c),'' ensures that the content space $\bm c$ contains content information, i.e., BoW features.
 We introduce a softmax classifier over the BoW vocabulary
@@ -370,7 +370,7 @@ For the decoder, we fed the latent vector $\bm h=[\bm s, \bm c]$ to the hidden s
 
 We used the Adam optimizer \cite{kingma2014adam} for the autoencoder and the RMSProp optimizer \cite{tieleman2012lecture} for the discriminators, following stability tricks in adversarial training  \cite{arjovsky2017wasserstein}.
 Each optimizer has an initial learning rate of $10^{-3}$.
-Our model is trained for 20 epochs, by which time it has mostly converged.
+Our model is trained for 20 epochs, by which time it has converged.
 The word embedding layer was initialized by word2vec \cite{mikolov2013distributed} trained on respective training sets.
 Both the autoencoder and the discriminators are trained once per mini-batch with $\hyp{mul(s)}\!\!=\!\!10$, $\hyp{mul(c)}\!\!=\!\!3$, $\hyp{adv(s)}\!\!=\!\!1$, and $\hyp{adv(c)} = 0.03$.
 These hyperparameters were tuned by a log-scale grid search within two orders of magnitude around the default value~$1$; we chose the values yielding the best validation results.
@@ -394,7 +394,7 @@ We show t-SNE plots~\cite{maaten2008visualizing} for both DAE and VAE in Figure~
 As seen, sentences with different styles are noticeably separated in a clean manner in the style space (LHS), but are indistinguishable in the content space (RHS).
 It is also evident that the latent space learned by VAE is considerably smoother and more continuous compared with the one learned by DAE.
 
-We show t-SNE plots for ablation tests with different combinations of auxiliary losses in Supplemental Material C.
+We show t-SNE plots for ablation tests with different combinations of auxiliary losses in Supplementary Material C.
 
 \begin{table}[!t]
 	\centering
@@ -428,10 +428,10 @@ We show t-SNE plots for ablation tests with different combinations of auxiliary 
 			\tabc{2}{Model}                            & \multicolumn{5}{c||}{\textbf{Yelp Dataset}} & \multicolumn{5}{c|}{\textbf{Amazon Dataset}}                                                                                                                                                                                                                           \\ \cline{2-11}
 			                                           & \textbf{STA}$^\uparrow$                     & \textbf{CS}$^\uparrow$                       & \textbf{WO}$^\uparrow$ & \textbf{PPL}$^\downarrow$ & \textbf{GM}$^\uparrow$ & \textbf{STA}$^\uparrow$    & \textbf{CS}$^\uparrow$     & \textbf{WO}$^\uparrow$ & \textbf{PPL}$^\downarrow$ & \textbf{GM}$^\uparrow$     \\
 			\hline\hline
-			Style-Embedding \cite{fu2018style}         & \color{gray}0.18                            & \color{gray} 0.96                            & \color{gray} 0.67      & \color{gray} 124          & \color{gray} 0.10      & \color{gray} \ 0.40$^\dag$ & \color{gray} \ 0.93$^\dag$ & \color{gray} 0.36      & \color{gray} 32           & \color{gray} \textbf{0.17} \\ \hline
+			Style-Embedding \cite{fu2018style}         & \color{gray}0.18                            & \color{gray} 0.96                            & \color{gray} 0.67      & \color{gray} 124          & \color{gray} 0.10      & \color{gray} \ 0.40$^\dag$ & \color{gray} \ 0.93$^\dag$ & \color{gray} 0.36      & \color{gray} 32           & \color{gray} 0.17 \\ \hline
 			Cross-Alignment \cite{shen2017style}       & \ 0.78$^\dag$                               & 0.89                                         & 0.21                   & 93                        & 0.12                   & 0.61                       & 0.89                       & 0.02                   & 202                       & 0.04                       \\ \hline
 			Multi-Decoder \cite{zhao2018adversarially} & \ 0.82$^\dag$                               & 0.88                                         & 0.27                   & 85                        & 0.14                   & 0.55                       & \textbf{0.93}              & 0.17                   & 75                        & 0.11                       \\ \hline
-			Del-Ret-Gen \cite{li2018delete} $^\ddag$   & 0.86                                        & \textbf{0.94}                                & 0.52                   & 70                        & 0.19                   & \color{gray}0.43           & \color{gray} 0.98          & \color{gray} 0.80      & \color{gray} 65           & \color{gray} \textbf{0.17} \\ \hline
+			Del-Ret-Gen \cite{li2018delete} $^\ddag$   & 0.86                                        & \textbf{0.94}                                & 0.52                   & 70                        & 0.19                   & \color{gray}0.43           & \color{gray} 0.98          & \color{gray} 0.80      & \color{gray} 65           & \color{gray} 0.17 \\ \hline
 			BackTranslate \cite{prabhumoye2018style}   & 0.85                                        & 0.83                                         & 0.08                   & 206                       & 0.07                   & \textbf{0.83}              & 0.82                       & 0.02                   & 115                       & 0.05                       \\ \hline
 			Cycle-RL \cite{xu2018unpaired} $^\ddag$    & 0.80                                        & 0.92                                         & 0.43                   & 470                       & 0.09                   & 0.72                       & 0.91                       & {0.22}                 & 332                       & 0.08                       \\ \hline\hline
 			Ours (DAE)                                 & 0.88                                        & 0.92                                         & \textbf{0.55}          & 52                        & 0.21                   & 0.72                       & 0.92                       & \textbf{0.35}          & 73                        & \textbf{0.15}              \\ \hline
@@ -446,7 +446,7 @@ We show t-SNE plots for ablation tests with different combinations of auxiliary 
 \subsection{Exp.~II: Non-Parallel Text Style Transfer}
 In this experiment, we apply the disentangled latent space to sentiment-transfer text generation.
 
-\textbf{Metrics}: We evaluate competing models based on (1) style transfer strength, (2) content preservation, and (3) quality of generated language. The evaluation of sentence generation is difficult itself in contemporary literature, so we adopt a few automatic metrics and use human judgment as well.
+\textbf{Metrics}: We evaluate competing models based on (1) style transfer accuracy, (2) content preservation, and (3) quality of generated language. The evaluation of sentence generation has proven to be difficult in contemporary literature, so we adopt a few automatic metrics and use human judgment as well.
 
 \textit{Style-Transfer Accuracy} (\textbf{STA}):
 We follow most previous work~\cite{hu2017toward,shen2017style,fu2018style} and train a separate convolutional neural network (CNN) to predict the sentiment of a sentence~\cite{kim2014convolutional}, which is then used to approximate the style transfer accuracy.
@@ -461,11 +461,11 @@ This provides a rough estimation of content preservation.
 
 \textit{Word Overlap} (\textbf{WO}):
 We find that cosine similarity, although correlated to human judgment, is not a sensitive measure.
-Instead, we propose a simple, yet effective, measure that counts the unigram word overlap rate of the original sentence $\mathrm x$ and the style-transferred sentence $\mathrm y$, computed by $\frac{count(w_{\mathrm x} \cap w_{\mathrm y})}{count(w_{\mathrm x} \cup w_{\mathrm y})}$.
+Instead, we propose a simple and effective measure that counts the unigram word overlap rate of the original sentence $\mathrm x$ and the style-transferred sentence $\mathrm y$, computed by $\frac{count(w_{\mathrm x} \cap w_{\mathrm y})}{count(w_{\mathrm x} \cup w_{\mathrm y})}$.
 Here, we exclude both stopwords and sentiment words.
 
 
-\textit{Perplexity} (\textbf{PPL}): We use the trigram Kneser--Ney (KN,~\citeyear{kneser1995improved}) language model as a quantitative and automated metric to evaluate the fluency of a sentence.
+\textit{Perplexity} (\textbf{PPL}): We use a trigram Kneser--Ney (KN,~\citeyear{kneser1995improved}) language model as a quantitative and automated metric to evaluate the fluency of a sentence.
 It estimates the empirical distribution of trigrams in a corpus, and computes the perplexity of a test sentence.
 We trained the language model on the respective datasets, and report PPL on the generated sentences. A smaller PPL indicates more fluent sentences.
 
