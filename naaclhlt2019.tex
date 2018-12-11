@@ -393,7 +393,7 @@ These results verify the effectiveness of our disentangling approach, as the sty
 
 We show t-SNE plots~\cite{maaten2008visualizing} for both DAE and VAE in Figure~\ref{fig:tsne-plots}.
 As seen, sentences with different styles are noticeably separated in a clean manner in the style space (LHS), but are indistinguishable in the content space (RHS).
-It is also evident that the latent space learned by VAE is considerably smoother and more continuous compared with the one learned by DAE.
+It is also evident that the latent space learned by VAE is considerably smoother and more continuous than the one learned by DAE.
 
 We show t-SNE plots for ablation tests with different combinations of auxiliary losses in Supplementary Material C.
 
@@ -422,7 +422,7 @@ We show t-SNE plots for ablation tests with different combinations of auxiliary 
 \end{figure}
 
 \begin{table*}[!t]
-	\centering
+	\centering\vspace{-.1cm}
 	\resizebox{\textwidth}{!}{
 		\begin{tabular}{|l||c|c|c|c|c||c|c|c|c|c| }
 			\hline
@@ -447,7 +447,7 @@ We show t-SNE plots for ablation tests with different combinations of auxiliary 
 \subsection{Exp.~II: Non-Parallel Text Style Transfer}
 In this experiment, we apply the disentangled latent space to sentiment-transfer text generation.
 
-\textbf{Metrics}: We evaluate competing models based on (1) style transfer accuracy, (2) content preservation, and (3) quality of generated language. The evaluation of sentence generation has proven to be difficult in contemporary literature, so we adopt a few automatic metrics and use human judgment as well.
+\textbf{Metrics.} We evaluate competing models based on (1) style transfer accuracy, (2) content preservation, and (3) quality of generated language. The evaluation of sentence generation has proven to be difficult in contemporary literature, so we adopt a few automatic metrics and use human judgment as well.
 
 \textit{Style-Transfer Accuracy} (\textbf{STA}):
 We follow most previous work~\cite{hu2017toward,shen2017style,fu2018style} and train a separate convolutional neural network (CNN) to predict the sentiment of a sentence~\cite{kim2014convolutional}, which is then used to approximate the style transfer accuracy.
@@ -493,9 +493,9 @@ The inter-rater agreement---as measured by Krippendorff's alpha \cite{krippendor
 			\citet{zhao2018adversarially} & 3.55              & 3.09              & 3.77              & 3.46              \\ \hline \hline
 			Ours (DAE)                    & 3.67              & 3.64              & 4.19              & 3.83              \\ \hline
 			Ours (VAE)                    & \textbf{4.32}     & \textbf{3.73}     & \textbf{4.48}     & \textbf{4.16}     \\ \hline
-		\end{tabular}}
+		\end{tabular}}\vspace{-.1cm}
 	\caption{Manual evaluation on the Yelp dataset.}
-	\vspace{-1cm}
+	\vspace{-.3cm}
 	\label{tab:manual-evaluation}
 \end{table}
 
